@@ -22,8 +22,11 @@ public class Render {
 
 	private static Dimension canvasSize;
 	private static Dimension gameSize;
-
 	private static int sizeFactor = 0;
+
+	private static long lastFpsCheck = 0;
+	private static int currentFPS = 0;
+	private static int totalFrames = 0;
 
 	public static void init(Dimension game_size) {
 
@@ -61,39 +64,36 @@ public class Render {
 	private static void startRendering() {
 		Thread thread = new Thread() {
 			GraphicsConfiguration gc = canvas.getGraphicsConfiguration();
-			VolatileImage vImage = gc.createCompatibleVolatileImage(gameSize.width, gameSize.width);
+			VolatileImage vImage = gc.createCompatibleVolatileImage(gameSize.width, gameSize.height);
 
 			public void run() {
 				while (Game.running) {
+					Render.settleFPS();
 					if (vImage.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE) {
 						vImage = gc.createCompatibleVolatileImage(gameSize.width, gameSize.height);
 					}
 
 					Graphics g = vImage.getGraphics();
 
-					g.setColor(Color.black);
-					g.fillRect(0, 0, gameSize.width, gameSize.height);
 					g.setColor(Color.red);
-					g.fillRect(1, 1, 119, 119);
+					g.fillRect(0, 0, gameSize.width, gameSize.height);
+					g.setColor(Color.black);
+					g.drawRect(10, 10, 20, 20);
+					
+					g.setColor(Color.LIGHT_GRAY);
+					g.drawString("FPS: "+currentFPS, 10, 10);
 
 					g.dispose();
 
 					g = canvas.getGraphics();
 
-					System.out.println(sizeFactor + " " + canvasSize.width + " " + canvasSize.height);
-
-					g.drawImage(vImage, 0, 0, gameSize.width*sizeFactor, gameSize.height*sizeFactor, null);
+					g.drawImage(vImage, 0, 0, gameSize.width * sizeFactor, gameSize.height * sizeFactor, null);
 
 					g.dispose();
-
-					try {
-						sleep(100);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 				}
 			}
+
+			
 		};
 		thread.setName("Renderer");
 		thread.start();
@@ -110,17 +110,26 @@ public class Render {
 		}
 
 	}
+	
+	private static void settleFPS() {
+		totalFrames++;
+		if (System.nanoTime() > lastFpsCheck + (1000000000)) {
+			lastFpsCheck = System.nanoTime();
+			currentFPS = totalFrames;
+			totalFrames = 0;
+			System.out.println(currentFPS);
+		}
+
+	}
 
 	private static void getBestSize(Dimension screenSize) {
 		sizeFactor = 0;
 		while (screenSize.width > canvasSize.width + gameSize.width
 				&& screenSize.height > canvasSize.height + gameSize.height) {
 			canvasSize = new Dimension(canvasSize.width + gameSize.width, canvasSize.height + gameSize.height);
-			System.out.println(canvasSize.width + " " + canvasSize.height);
-			System.out.println("test " + screenSize.width + " " + screenSize.height);
 			sizeFactor++;
 		}
-		//canvasSize = screenSize;
+		// canvasSize = screenSize;
 
 	}
 
