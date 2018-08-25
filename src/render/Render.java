@@ -37,7 +37,6 @@ public class Render {
 	private static long lastFpsCheck = 0;
 	private static int desiredFPS = 60;
 
-
 	public static void init(Dimension gameSize, int canvasLayers) {
 
 		Render.gameSize = gameSize;
@@ -90,7 +89,7 @@ public class Render {
 
 						g.setColor(Color.white);
 						g.fillRect(0, 0, gameSize.width, gameSize.height);
-						
+
 						Level.draw(g);
 
 						g.setColor(Color.LIGHT_GRAY);
@@ -154,8 +153,8 @@ public class Render {
 
 	public static BufferedImage loadImage(String path) throws IOException {
 		BufferedImage rawImage = ImageIO.read(new File(path));
-		BufferedImage finalImage = canvas.getGraphicsConfiguration().createCompatibleImage(rawImage.getWidth(), rawImage.getHeight(),
-				rawImage.getTransparency());
+		BufferedImage finalImage = canvas.getGraphicsConfiguration().createCompatibleImage(rawImage.getWidth(),
+				rawImage.getHeight(), rawImage.getTransparency());
 		finalImage.getGraphics().drawImage(rawImage, 0, 0, null);
 		return finalImage;
 
@@ -164,6 +163,32 @@ public class Render {
 	public static void drawImage(Graphics g, BufferedImage image, Float pos) {
 		g.drawImage(image, (int) pos.x - (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
 				image.getWidth(), image.getHeight(), null);
+	}
+
+	public static void drawImage(Graphics g, BufferedImage image, Float pos, boolean flipped) {
+		if (flipped) {
+			g.drawImage(image, (int) pos.x + (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
+					-image.getWidth(), image.getHeight(), null);
+		} else {
+			g.drawImage(image, (int) pos.x - (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
+					image.getWidth(), image.getHeight(), null);
+		}
+	}
+
+	public static void drawImage(Graphics g, BufferedImage image, Float pos, boolean flippedHorz, boolean flippedVert) {
+		if (flippedHorz && flippedVert) {
+			g.drawImage(image, (int) pos.x + (image.getWidth() / 2), (int) pos.y + (image.getHeight() / 2),
+					-image.getWidth(), -image.getHeight(), null);
+		} else if (flippedHorz) {
+			g.drawImage(image, (int) pos.x + (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
+					-image.getWidth(), image.getHeight(), null);
+		} else if (flippedVert) {
+			g.drawImage(image, (int) pos.x - (image.getWidth() / 2), (int) pos.y + (image.getHeight() / 2),
+					image.getWidth(), -image.getHeight(), null);
+		} else {
+			g.drawImage(image, (int) pos.x - (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
+					image.getWidth(), image.getHeight(), null);
+		}
 	}
 
 }

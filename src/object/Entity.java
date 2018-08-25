@@ -33,7 +33,7 @@ public class Entity {
 
 	public void draw(Graphics g, int Layer) {
 		pos.x+=0.01f;
-		Render.drawImage(g, image, pos);
+		Render.drawImage(g, image, pos, true);
 		g.fillRect((int)pos.x-1, (int)pos.y-1, 2, 2);
 	}
 
