@@ -8,8 +8,12 @@ import object.Entity;
 import render.Render;
 
 public class Game {
+	
+	public static String trinitySubgamePath = System.getProperty("user.dir")+"/games";
 
 	public static boolean running = true;
+
+	public static String currentName = "dummy";
 
 	public static void main(String[] args) {
 		Render.init(new Dimension(160, 120), 1);

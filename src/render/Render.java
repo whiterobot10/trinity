@@ -152,7 +152,7 @@ public class Render {
 	}
 
 	public static BufferedImage loadImage(String path) throws IOException {
-		BufferedImage rawImage = ImageIO.read(new File(path));
+		BufferedImage rawImage = ImageIO.read(new File(Game.trinitySubgamePath+"/"+ Game.currentName+"/gfx/"+path));
 		BufferedImage finalImage = canvas.getGraphicsConfiguration().createCompatibleImage(rawImage.getWidth(),
 				rawImage.getHeight(), rawImage.getTransparency());
 		finalImage.getGraphics().drawImage(rawImage, 0, 0, null);

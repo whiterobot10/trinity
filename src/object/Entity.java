@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import engine.Game;
 import render.Render;
 
 public class Entity {
@@ -19,12 +20,11 @@ public class Entity {
 		this.pos = pos;
 		this.layer = layer;
 		try {
-			image = Render.loadImage("/Users/josh/eclipse-workspace/trinity/gfx/dummy.png");
+			image = Render.loadImage("dummy.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		System.out.println(image);
-		
 	}
 
 	public void update() {
