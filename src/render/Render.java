@@ -11,15 +11,16 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.geom.Point2D.Float;
 import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import com.sun.javafx.webkit.theme.Renderer;
-
 import engine.Game;
+import env.Level;
 
 public class Render {
 
@@ -36,9 +37,6 @@ public class Render {
 	private static long lastFpsCheck = 0;
 	private static int desiredFPS = 60;
 
-	private static double test = 10;
-	
-	
 
 	public static void init(Dimension gameSize, int canvasLayers) {
 
@@ -90,11 +88,10 @@ public class Render {
 
 						Graphics g = vImage.getGraphics();
 
-						g.setColor(Color.red);
+						g.setColor(Color.white);
 						g.fillRect(0, 0, gameSize.width, gameSize.height);
-						g.setColor(Color.black);
-						g.drawRect(10, (int) test, 20, 20);
-						test += 0.01;
+						
+						Level.draw(g);
 
 						g.setColor(Color.LIGHT_GRAY);
 
@@ -154,11 +151,19 @@ public class Render {
 	public static Dimension getSize() {
 		return canvasSize;
 	}
-	
+
 	public static BufferedImage loadImage(String path) throws IOException {
-		BufferedImage rawImage = ImageIO.read(Render.class.getResource(path));
-		return canvas.getGraphicsConfiguration().createCompatibleImage(rawImage.getWidth(), rawImage.getHeight(), rawImage.getTransparency());
-		
+		BufferedImage rawImage = ImageIO.read(new File(path));
+		BufferedImage finalImage = canvas.getGraphicsConfiguration().createCompatibleImage(rawImage.getWidth(), rawImage.getHeight(),
+				rawImage.getTransparency());
+		finalImage.getGraphics().drawImage(rawImage, 0, 0, null);
+		return finalImage;
+
+	}
+
+	public static void drawImage(Graphics g, BufferedImage image, Float pos) {
+		g.drawImage(image, (int) pos.x - (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
+				image.getWidth(), image.getHeight(), null);
 	}
 
 }

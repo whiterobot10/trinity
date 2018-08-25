@@ -20,9 +20,11 @@ public class Level {
 	}
 
 	public static void draw(Graphics g) {
-		for (int i = 0; i < Render.canvasLayers; i++) {
-			for (Entity e : currentLevel.entities) {
-				e.draw(g, i);
+		if (currentLevel != null) {
+			for (int i = 0; i < Render.canvasLayers; i++) {
+				for (Entity e : currentLevel.entities) {
+					e.draw(g, i);
+				}
 			}
 		}
 	}
