@@ -9,7 +9,7 @@ import render.Render;
 
 public class Game {
 	
-	public static String trinitySubgamePath = System.getProperty("user.dir")+"/games";
+	public static String trinitySubgamePath = System.getProperty("user.dir")+"/..";
 
 	public static boolean running = true;
 

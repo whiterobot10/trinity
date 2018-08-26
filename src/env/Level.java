@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import object.Entity;
+import object.Wall;
 import render.Render;
 
 public class Level {
@@ -11,6 +12,7 @@ public class Level {
 	public static Level currentLevel = null;
 
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
+	public ArrayList<Wall> Walls = new ArrayList<Wall>();
 
 	public static void update() {
 		for (Entity e : currentLevel.entities) {
