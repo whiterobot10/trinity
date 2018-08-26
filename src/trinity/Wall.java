@@ -1,11 +1,12 @@
-package object;
+package trinity;
+
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import render.Render;
+import trinity.Render;
 
 public class Wall {
 

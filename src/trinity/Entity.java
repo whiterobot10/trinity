@@ -1,12 +1,13 @@
-package object;
+package trinity;
+
 
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import engine.Game;
-import render.Render;
+
+import trinity.Render;
 
 public class Entity {
 

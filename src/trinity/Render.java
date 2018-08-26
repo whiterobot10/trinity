@@ -1,4 +1,5 @@
-package render;
+package trinity;
+
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -19,8 +20,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import engine.Game;
-import env.Level;
+
+import trinity.Level;
 
 public class Render {
 

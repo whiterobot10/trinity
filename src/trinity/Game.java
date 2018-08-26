@@ -1,11 +1,11 @@
-package engine;
+package trinity;
+
 
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
-import env.Level;
-import object.Entity;
-import render.Render;
+import trinity.Level;
+import trinity.Render;
 
 public class Game {
 	

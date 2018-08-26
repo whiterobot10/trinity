@@ -1,11 +1,10 @@
-package env;
+package trinity;
+
 
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import object.Entity;
-import object.Wall;
-import render.Render;
+import trinity.Render;
 
 public class Level {
 
