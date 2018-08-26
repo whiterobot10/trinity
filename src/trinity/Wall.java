@@ -12,7 +12,7 @@ public class Wall {
 	int layer;
 	Point2D.Float pos;
 	Point2D.Float size;
-	static boolean debug = true;
+	
 	boolean solid = true;
 
 	public static BufferedImage image = null;
@@ -44,7 +44,7 @@ public class Wall {
 	}
 
 	public void draw(Graphics g, int Layer) {
-		if (debug) {
+		if (Game.debug) {
 			g.setColor(Color.red);
 			g.fillRect((int) (pos.x - (size.x / 2)), (int) (pos.y - (size.y / 2)), (int) size.x, (int) size.y);
 		}

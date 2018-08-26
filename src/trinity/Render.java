@@ -12,14 +12,13 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Float;
 import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
 
 import trinity.Level;
 
@@ -85,6 +84,9 @@ public class Render {
 						if (vImage.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE) {
 							vImage = gc.createCompatibleVolatileImage(gameSize.width, gameSize.height);
 						}
+						
+						Level.update();
+						
 
 						Graphics g = vImage.getGraphics();
 
@@ -152,21 +154,39 @@ public class Render {
 		return canvasSize;
 	}
 
-	public static BufferedImage loadImage(String path) throws IOException {
-		BufferedImage rawImage = ImageIO.read(new File(Game.trinitySubgamePath+"/"+ Game.currentName+"/gfx/"+path));
+	public static BufferedImage loadImage(String path) {
+		BufferedImage rawImage;
+		try {
+			rawImage = ImageIO.read(new File(Game.trinitySubgamePath+"/"+ Game.currentName+"/gfx/"+path));
+			BufferedImage finalImage = canvas.getGraphicsConfiguration().createCompatibleImage(rawImage.getWidth(),
+					rawImage.getHeight(), rawImage.getTransparency());
+			finalImage.getGraphics().drawImage(rawImage, 0, 0, null);
+			return finalImage;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+	
+	public static BufferedImage loadImage(String game, String path) {
+		try {
+		BufferedImage rawImage = ImageIO.read(new File(Game.trinitySubgamePath+"/"+ game+"/gfx/"+path));
 		BufferedImage finalImage = canvas.getGraphicsConfiguration().createCompatibleImage(rawImage.getWidth(),
 				rawImage.getHeight(), rawImage.getTransparency());
 		finalImage.getGraphics().drawImage(rawImage, 0, 0, null);
-		return finalImage;
-
+		return finalImage;} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
-	public static void drawImage(Graphics g, BufferedImage image, Float pos) {
+	public static void drawImage(Graphics g, BufferedImage image, Point2D.Float pos) {
 		g.drawImage(image, (int) pos.x - (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
 				image.getWidth(), image.getHeight(), null);
 	}
 
-	public static void drawImage(Graphics g, BufferedImage image, Float pos, boolean flipped) {
+	public static void drawImage(Graphics g, BufferedImage image, Point2D.Float pos, boolean flipped) {
 		if (flipped) {
 			g.drawImage(image, (int) pos.x + (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
 					-image.getWidth(), image.getHeight(), null);
@@ -176,7 +196,7 @@ public class Render {
 		}
 	}
 
-	public static void drawImage(Graphics g, BufferedImage image, Float pos, boolean flippedHorz, boolean flippedVert) {
+	public static void drawImage(Graphics g, BufferedImage image, Point2D.Float pos, boolean flippedHorz, boolean flippedVert) {
 		if (flippedHorz && flippedVert) {
 			g.drawImage(image, (int) pos.x + (image.getWidth() / 2), (int) pos.y + (image.getHeight() / 2),
 					-image.getWidth(), -image.getHeight(), null);
@@ -190,6 +210,11 @@ public class Render {
 			g.drawImage(image, (int) pos.x - (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
 					image.getWidth(), image.getHeight(), null);
 		}
+	}
+	
+	public static void drawString(Graphics g, Point2D.Float pos, String text) {
+		g.setColor(Color.BLACK);
+		g.drawString(text, (int)pos.x+10, (int)pos.y+4);
 	}
 
 }
