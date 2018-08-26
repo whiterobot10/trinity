@@ -6,9 +6,6 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import trinity.Render;
 
 public class Entity {
 

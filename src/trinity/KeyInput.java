@@ -1,11 +1,7 @@
 package trinity;
 
-import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class KeyInput implements KeyListener{
 	
@@ -19,13 +15,11 @@ public class KeyInput implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		System.out.println(e.getKeyChar());
 
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("KeyPress");
 		for (Key k : Game.keys) {
 			if (k.key == e) {
 				k.held = true;
