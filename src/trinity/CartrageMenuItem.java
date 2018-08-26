@@ -18,7 +18,7 @@ public class CartrageMenuItem extends MenuItem {
 	@Override
 	public void onClick() {
 		try {
-			Game.getThing("Cartrage", "/Users/josh/eclipse-workspace/"+cartrage+"/bin");
+			Game.getThing("Cartridge", "/Users/josh/eclipse-workspace/low_battery/bin");
 		} catch (MalformedURLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		}

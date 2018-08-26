@@ -27,11 +27,19 @@ public class Game {
 
 	public static void main(String[] args) {
 		Render.init(new Dimension(160, 120), 1);
-		Level.setup();
+		Level.clear();
 		Level.levels.put(null, new Level());
 		Level.currentLevel = Level.levels.get(null);
-		Level.currentLevel.entities.add(new Entity(new Point2D.Float(20, 20)));
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(20, 20), "TEST", "low_battery"));
+		
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(10, 20), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(10, 40), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(10, 60), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(10, 80), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(100, 20), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(100, 40), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(100, 60), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(100, 80), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new MenuSelecter(new Point2D.Float(0, 0)));
 	
 		
 

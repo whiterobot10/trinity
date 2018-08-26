@@ -16,32 +16,28 @@ public class Entity {
 	boolean left = false;
 	Shape hitbox = new Rectangle(0,0,0,0);
 
-	public static BufferedImage image = null;
+	public static BufferedImage image = Level.images.get("pointer");
 
 	public Entity(Point2D.Float pos) {
 		this.pos = pos;
 		layer = 0;
-		image = Level.images.get("pointer");
 	}
 
 	public Entity(Point2D.Float pos, boolean solid) {
 		this.pos = pos;
 		layer = 0;
 		this.solid = solid;
-		image = Level.images.get("pointer");
 	}
 
 	public Entity(Point2D.Float pos, int layer) {
 		this.pos = pos;
 		this.layer = layer;
-		image = Level.images.get("pointer");
 	}
 
 	public Entity(Point2D.Float pos, int layer, boolean solid) {
 		this.pos = pos;
 		this.layer = layer;
 		this.solid = solid;
-		image = Level.images.get("pointer");
 	}
 
 	public void update() {

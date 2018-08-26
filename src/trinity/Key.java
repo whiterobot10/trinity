@@ -7,15 +7,30 @@ public class Key {
 	public boolean held;
 	public boolean pressed;
 	public boolean released;
-	public KeyEvent key;
-	public MouseEvent mouse;
+	public int key;
+	public int mouse;
+	private String id;
+	public boolean isMouse;
 
-	public Key(KeyEvent key) {
-		this.key = key;
+	public Key(int key, String id, boolean isMouse) {
+		if (isMouse) {
+			mouse = key;
+			this.id = id;
+		} else {
+			this.key = key;
+			this.id = id;
+		}
+		this.isMouse=isMouse;
 	}
 
-	public Key(MouseEvent mouse) {
-		this.mouse = mouse;
+
+	public static Key getKey(String id) {
+		for (Key k : Game.keys) {
+			if (k.id == id) {
+				return k;
+			}
+		}
+		return null;
 	}
 
 }
