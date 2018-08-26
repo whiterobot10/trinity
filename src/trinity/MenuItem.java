@@ -20,6 +20,9 @@ public class MenuItem extends Entity{
 		}
 		
 	}
+	
+	public void onClick() {}
+	
 
 
 }

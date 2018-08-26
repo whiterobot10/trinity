@@ -1,6 +1,5 @@
 package trinity;
 
-
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -31,7 +30,7 @@ public class Render {
 
 	private static Dimension canvasSize;
 	private static Dimension gameSize;
-	private static int sizeFactor = 0;
+	public static int sizeFactor = 0;
 	public static int canvasLayers;
 
 	private static long lastFpsCheck = 0;
@@ -53,6 +52,9 @@ public class Render {
 		if (fullscreen) {
 			makeFullscreen();
 		}
+		frame.addKeyListener(new KeyInput());
+		canvas.addMouseListener(new MouseInput());
+		canvas.addMouseMotionListener(new MouseMotionInput());
 
 		frame.add(canvas);
 		frame.pack();
@@ -84,9 +86,8 @@ public class Render {
 						if (vImage.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE) {
 							vImage = gc.createCompatibleVolatileImage(gameSize.width, gameSize.height);
 						}
-						
+
 						Level.update();
-						
 
 						Graphics g = vImage.getGraphics();
 
@@ -96,6 +97,11 @@ public class Render {
 						Level.draw(g);
 
 						g.setColor(Color.LIGHT_GRAY);
+						g.drawOval(Game.mouse.x - 10, Game.mouse.y - 10, 20, 20);
+						g.drawLine(0, 0, Game.mouse.x, Game.mouse.y);
+						if (Level.images.get("pointer") != null) {
+							drawImage(g, Level.images.get("pointer"), new Point2D.Float(Game.mouse.x, Game.mouse.y));
+						}
 
 						g.dispose();
 
@@ -157,7 +163,7 @@ public class Render {
 	public static BufferedImage loadImage(String path) {
 		BufferedImage rawImage;
 		try {
-			rawImage = ImageIO.read(new File(Game.trinitySubgamePath+"/"+ Game.currentName+"/gfx/"+path));
+			rawImage = ImageIO.read(new File(Game.trinitySubgamePath + "/" + Game.currentName + "/gfx/" + path));
 			BufferedImage finalImage = canvas.getGraphicsConfiguration().createCompatibleImage(rawImage.getWidth(),
 					rawImage.getHeight(), rawImage.getTransparency());
 			finalImage.getGraphics().drawImage(rawImage, 0, 0, null);
@@ -168,14 +174,15 @@ public class Render {
 		}
 
 	}
-	
+
 	public static BufferedImage loadImage(String game, String path) {
 		try {
-		BufferedImage rawImage = ImageIO.read(new File(Game.trinitySubgamePath+"/"+ game+"/gfx/"+path));
-		BufferedImage finalImage = canvas.getGraphicsConfiguration().createCompatibleImage(rawImage.getWidth(),
-				rawImage.getHeight(), rawImage.getTransparency());
-		finalImage.getGraphics().drawImage(rawImage, 0, 0, null);
-		return finalImage;} catch (IOException e) {
+			BufferedImage rawImage = ImageIO.read(new File(Game.trinitySubgamePath + "/" + game + "/gfx/" + path));
+			BufferedImage finalImage = canvas.getGraphicsConfiguration().createCompatibleImage(rawImage.getWidth(),
+					rawImage.getHeight(), rawImage.getTransparency());
+			finalImage.getGraphics().drawImage(rawImage, 0, 0, null);
+			return finalImage;
+		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -196,7 +203,8 @@ public class Render {
 		}
 	}
 
-	public static void drawImage(Graphics g, BufferedImage image, Point2D.Float pos, boolean flippedHorz, boolean flippedVert) {
+	public static void drawImage(Graphics g, BufferedImage image, Point2D.Float pos, boolean flippedHorz,
+			boolean flippedVert) {
 		if (flippedHorz && flippedVert) {
 			g.drawImage(image, (int) pos.x + (image.getWidth() / 2), (int) pos.y + (image.getHeight() / 2),
 					-image.getWidth(), -image.getHeight(), null);
@@ -211,10 +219,10 @@ public class Render {
 					image.getWidth(), image.getHeight(), null);
 		}
 	}
-	
+
 	public static void drawString(Graphics g, Point2D.Float pos, String text) {
 		g.setColor(Color.BLACK);
-		g.drawString(text, (int)pos.x+10, (int)pos.y+4);
+		g.drawString(text, (int) pos.x + 10, (int) pos.y + 4);
 	}
 
 }

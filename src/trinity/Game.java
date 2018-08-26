@@ -1,7 +1,7 @@
 package trinity;
 
-
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
@@ -9,14 +9,20 @@ import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Game {
 	
-	public static String trinitySubgamePath = System.getProperty("user.dir")+"/..";
+	public static List<Key> keys = Collections.synchronizedList(new ArrayList<Key>());
+	static Point mouse = new Point(0, 0);
+
+	public static String trinitySubgamePath = System.getProperty("user.dir") + "/..";
 
 	public static boolean running = true;
-	
-	public static boolean debug = false;
+
+	public static boolean debug = true;
 
 	public static String currentName = "dummy";
 
@@ -26,12 +32,9 @@ public class Game {
 		Level.levels.put(null, new Level());
 		Level.currentLevel = Level.levels.get(null);
 		Level.currentLevel.entities.add(new Entity(new Point2D.Float(20, 20)));
-		Level.currentLevel.entities.add(new MenuItem(new Point2D.Float(20, 20), "test"));
-		try {
-			getThing("","").setup();
-		} catch (MalformedURLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-			e.printStackTrace();
-		}
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(20, 20), "TEST", "low_battery"));
+	
+		
 
 	}
 
@@ -39,11 +42,11 @@ public class Game {
 		running = false;
 
 	}
-	
+
 	public static Level getThing(String classname, String path)
 			throws MalformedURLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-		
-		File file = new File("/Users/josh/eclipse-workspace/low_battery/bin");
+
+		File file = new File(path);
 
 		// Convert File to a URL
 		URL url = file.toURI().toURL(); // file:/c:/myclasses/
@@ -53,7 +56,7 @@ public class Game {
 		URLClassLoader cl = new URLClassLoader(urls);
 		// Load in the class; MyClass.class should be located in
 		// the directory file:/c:/myclasses/com/mycompany
-		Class cls = cl.loadClass("Cartridge");
+		Class cls = cl.loadClass(classname);
 
 		cls.getConstructors();
 //		try {
@@ -65,7 +68,7 @@ public class Game {
 //			e.printStackTrace();
 //		}
 		try {
-			cl.close ();
+			cl.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
