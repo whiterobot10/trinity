@@ -2,12 +2,13 @@ package trinity;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Float;
 
-public class menu_item extends Entity{
+public class MenuItem extends Entity{
 
 	String text;
-	public menu_item(Float pos, String text) {
+	public MenuItem(Point2D.Float pos, String text) {
 		super(pos);
 		this.text = text;
 	}

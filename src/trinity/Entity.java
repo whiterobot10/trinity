@@ -30,6 +30,7 @@ public class Entity {
 		image = Level.images.get("pointer");
 	}
 
+	
 	public Entity(Point2D.Float pos, int layer) {
 		this.pos = pos;
 		this.layer = layer;
@@ -46,6 +47,7 @@ public class Entity {
 	public void update() {
 
 	}
+	
 
 	public void damage(float amount) {
 		damage(amount, null);

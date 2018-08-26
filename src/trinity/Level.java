@@ -10,6 +10,7 @@ import trinity.Render;
 public class Level {
 
 	public static HashMap<String, BufferedImage> images = new HashMap<String, BufferedImage>();
+	public static HashMap<String, Level> levels = new HashMap<String, Level>();
 
 	public static void setup() {
 		images.put("pointer", Render.loadImage("trinity", "pointer.png"));
