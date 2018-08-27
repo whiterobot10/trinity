@@ -34,6 +34,7 @@ public class Render {
 
 	private static long lastFpsCheck = 0;
 	private static int desiredFPS = 60;
+	private static VolatileImage gameScreen;
 
 	public static void init(Dimension gameSize, int canvasLayers) {
 
@@ -57,8 +58,8 @@ public class Render {
 
 		frame.add(canvas);
 		frame.pack();
-		frame.setResizable(true);
-		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
+		//frame.setLocationRelativeTo(null);
 
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -76,19 +77,20 @@ public class Render {
 	private static void startRendering() {
 		Thread thread = new Thread() {
 			GraphicsConfiguration gc = canvas.getGraphicsConfiguration();
-			VolatileImage vImage = gc.createCompatibleVolatileImage(gameSize.width, gameSize.height);
 
 			public void run() {
+				fixDisplay(gameSize);
 				while (Game.running) {
 
 					if (Render.settleFPS()) {
-						if (vImage.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE) {
-							vImage = gc.createCompatibleVolatileImage(gameSize.width, gameSize.height);
+						if (gameScreen.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE) {
+							fixDisplay(gameSize);
+
 						}
 
 						Level.update();
 
-						Graphics g = vImage.getGraphics();
+						Graphics g = gameScreen.getGraphics();
 
 						g.setColor(Color.white);
 						g.fillRect(0, 0, gameSize.width, gameSize.height);
@@ -99,15 +101,15 @@ public class Render {
 						g.drawOval(Key.mousePos.x - 10, Key.mousePos.y - 10, 20, 20);
 						g.drawLine(0, 0, Key.mousePos.x, Key.mousePos.y);
 						if (Level.images.get("pointer") != null) {
-							drawImage(g, Level.images.get("pointer"), new Point2D.Float(Key.mousePos.x, Key.mousePos.y));
+							drawImage(g, Level.images.get("pointer"),
+									new Point2D.Float(Key.mousePos.x, Key.mousePos.y));
 						}
 
 						g.dispose();
 
 						g = canvas.getGraphics();
 
-						g.drawImage(vImage, 0, 0, gameSize.width * sizeFactor, gameSize.height * sizeFactor, null);
-
+						g.drawImage(gameScreen, 0, 0, gameSize.width * sizeFactor, gameSize.height * sizeFactor, null);
 						g.dispose();
 					}
 				}
@@ -140,7 +142,9 @@ public class Render {
 	}
 
 	private static void getBestSize(Dimension screenSize) {
-		sizeFactor = 0;
+		System.out.println("HI");
+		canvasSize = new Dimension(gameSize.width, gameSize.height);
+		sizeFactor = 1;
 		while (screenSize.width > canvasSize.width + gameSize.width
 				&& screenSize.height > canvasSize.height + gameSize.height) {
 			canvasSize = new Dimension(canvasSize.width + gameSize.width, canvasSize.height + gameSize.height);
@@ -174,6 +178,21 @@ public class Render {
 
 	}
 
+	public static void fixDisplay(Dimension d) {
+		d.width = Math.max(d.width, 1);
+		d.height = Math.max(d.height, 1);
+		if (d.equals(gameSize)) {
+			gameScreen = canvas.getGraphicsConfiguration().createCompatibleVolatileImage(d.width, d.height);
+		} else {
+			gameScreen = canvas.getGraphicsConfiguration().createCompatibleVolatileImage(d.width, d.height);
+			getBestSize(Toolkit.getDefaultToolkit().getScreenSize());
+			gameSize = d;
+			frame.setSize(d.width * sizeFactor, d.height * sizeFactor);
+
+		}
+
+	}
+
 	public static BufferedImage loadImage(String game, String path) {
 		try {
 			BufferedImage rawImage = ImageIO.read(new File(Game.trinitySubgamePath + "/" + game + "/gfx/" + path));
@@ -188,35 +207,43 @@ public class Render {
 	}
 
 	public static void drawImage(Graphics g, BufferedImage image, Point2D.Float pos) {
-		g.drawImage(image, (int) pos.x - (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
-				image.getWidth(), image.getHeight(), null);
+		drawImage(g, image, pos, false, false);
 	}
 
 	public static void drawImage(Graphics g, BufferedImage image, Point2D.Float pos, boolean flipped) {
-		if (flipped) {
-			g.drawImage(image, (int) pos.x + (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
-					-image.getWidth(), image.getHeight(), null);
-		} else {
-			g.drawImage(image, (int) pos.x - (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
-					image.getWidth(), image.getHeight(), null);
-		}
+		drawImage(g, image, pos, flipped, false);
 	}
 
 	public static void drawImage(Graphics g, BufferedImage image, Point2D.Float pos, boolean flippedHorz,
 			boolean flippedVert) {
-		if (flippedHorz && flippedVert) {
-			g.drawImage(image, (int) pos.x + (image.getWidth() / 2), (int) pos.y + (image.getHeight() / 2),
-					-image.getWidth(), -image.getHeight(), null);
-		} else if (flippedHorz) {
-			g.drawImage(image, (int) pos.x + (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
-					-image.getWidth(), image.getHeight(), null);
-		} else if (flippedVert) {
-			g.drawImage(image, (int) pos.x - (image.getWidth() / 2), (int) pos.y + (image.getHeight() / 2),
-					image.getWidth(), -image.getHeight(), null);
-		} else {
-			g.drawImage(image, (int) pos.x - (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
-					image.getWidth(), image.getHeight(), null);
+
+		int horzMult = 1;
+		int vertMult = 1;
+		if (flippedHorz) {
+			horzMult = -1;
 		}
+		if (flippedVert) {
+			vertMult = -1;
+		}
+		int width = image.getWidth();
+		int height = image.getWidth();
+
+		g.drawImage(image, (int) (pos.x) - (width / 2) * horzMult, (int) (pos.y) - (height / 2) * vertMult,
+				width * horzMult, (height * vertMult), null);
+
+//		if (flippedHorz && flippedVert) {
+//			g.drawImage(image, (int) pos.x + (image.getWidth() / 2), (int) pos.y + (image.getHeight() / 2),
+//					-image.getWidth(), -image.getHeight(), null);
+//		} else if (flippedHorz) {
+//			g.drawImage(image, (int) pos.x + (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
+//					-image.getWidth(), image.getHeight(), null);
+//		} else if (flippedVert) {
+//			g.drawImage(image, (int) pos.x - (image.getWidth() / 2), (int) pos.y + (image.getHeight() / 2),
+//					image.getWidth(), -image.getHeight(), null);
+//		} else {
+//			g.drawImage(image, (int) pos.x - (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
+//					image.getWidth(), image.getHeight(), null);
+//		}
 	}
 
 	public static void drawString(Graphics g, Point2D.Float pos, String text) {
