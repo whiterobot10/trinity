@@ -14,29 +14,34 @@ public class Entity {
 	public Point2D.Float vel;
 	boolean solid = true;
 	boolean left = false;
-	public Shape hitbox = new Rectangle(0,0,0,0);
+	static float moveCheckAcc = 1.5f;
+	public Shape hitbox = new Rectangle(0, 0, 0, 0);
 
 	public static BufferedImage image = Level.images.get("pointer");
+
+	public Entity() {
+		pos = new Point2D.Float(0, 0);
+		layer = 0;
+	}
 
 	public Entity(Point2D.Float pos) {
 		this.pos = pos;
 		layer = 0;
+
 	}
 
 	public Entity(Point2D.Float pos, boolean solid) {
-		this.pos = pos;
-		layer = 0;
+		this(pos);
 		this.solid = solid;
 	}
 
 	public Entity(Point2D.Float pos, int layer) {
-		this.pos = pos;
+		this(pos);
 		this.layer = layer;
 	}
 
 	public Entity(Point2D.Float pos, int layer, boolean solid) {
-		this.pos = pos;
-		this.layer = layer;
+		this(pos, layer);
 		this.solid = solid;
 	}
 
@@ -69,11 +74,45 @@ public class Entity {
 			if (Game.debug) {
 				g.setColor(Color.red);
 				Rectangle foo = hitbox.getBounds();
-				g.drawRect(foo.x,foo.y,foo.width,foo.height);
+				g.drawRect(foo.x, foo.y, foo.width, foo.height);
 				g.setColor(Color.red);
 				g.fillRect((int) pos.x - 1, (int) pos.y - 1, 2, 2);
 			}
 		}
+	}
+
+	public boolean move(Point2D.Float target, float step) {
+
+		if (target.distance(pos) < step) {
+			step = (float) target.distance(pos);
+		}
+		if (step <= 0.02) {
+			return true;
+		}
+		float mult_x = target.x - pos.x;
+		float mult_y = target.y - pos.y;
+
+		float div = Math.abs(mult_x) + Math.abs(mult_y);
+		mult_x /= div;
+		mult_y /= div;
+
+		int checks = (int) (target.distance(pos) * moveCheckAcc);
+
+		for (int i = 0; i < checks; i++) {
+			pos.x += (step / checks) * mult_x;
+			pos.y += (step / checks) * mult_y;
+			if (clsnCheck()) {
+				pos.x -= (step / checks) * mult_x;
+				pos.y -= (step / checks) * mult_y;
+				return false;
+			}
+
+		}
+		return true;
+	}
+
+	private boolean clsnCheck() {
+		return false;
 	}
 
 }

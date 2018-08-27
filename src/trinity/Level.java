@@ -28,12 +28,12 @@ public class Level {
 	public static void clear() {
 		levels.clear();
 		images.clear();
-		Game.keys.clear();
-		Game.keys.add(new Key(KeyEvent.VK_UP, "menu_up", false));
-		Game.keys.add(new Key(KeyEvent.VK_DOWN, "menu_down", false));
-		Game.keys.add(new Key(KeyEvent.VK_LEFT, "menu_left", false));
-		Game.keys.add(new Key(KeyEvent.VK_RIGHT, "menu_right", false));
-		Game.keys.add(new Key(KeyEvent.VK_ENTER, "menu_enter", false));
+		Key.keys.clear();
+		Key.keys.add(new Key(KeyEvent.VK_UP, "menu_up", false));
+		Key.keys.add(new Key(KeyEvent.VK_DOWN, "menu_down", false));
+		Key.keys.add(new Key(KeyEvent.VK_LEFT, "menu_left", false));
+		Key.keys.add(new Key(KeyEvent.VK_RIGHT, "menu_right", false));
+		Key.keys.add(new Key(KeyEvent.VK_ENTER, "menu_enter", false));
 		images.put("pointer", Render.loadImage("trinity", "pointer.png"));
 	}
 

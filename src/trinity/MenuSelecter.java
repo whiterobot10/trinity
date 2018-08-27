@@ -26,7 +26,7 @@ public class MenuSelecter extends Entity {
 
 	@Override
 	public void update() {
-		if (!Game.keys.isEmpty()) {
+		if (!Key.keys.isEmpty()) {
 			if (Key.getKey("menu_down").pressed) {
 				selectedItem++;
 				if (selectedItem >= menuItems.size()) {

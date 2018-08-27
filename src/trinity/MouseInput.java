@@ -11,7 +11,7 @@ public class MouseInput implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		for (Key k : Game.keys) {
+		for (Key k : Key.keys) {
 			if (k.mouse == e.getButton()&&k.isMouse) {
 				k.held = true;
 				k.pressed = true;
@@ -22,7 +22,7 @@ public class MouseInput implements MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		for (Key k : Game.keys) {
+		for (Key k : Key.keys) {
 			if (k.mouse == e.getButton()&&k.isMouse) {
 				k.held = false;
 				k.released = true;

@@ -1,9 +1,18 @@
 package trinity;
 
+import java.awt.Point;
 import java.awt.event.KeyEvent;
+
+
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Key {
+	
+	public static List<Key> keys = Collections.synchronizedList(new ArrayList<Key>());
+	static Point mousePos = new Point(0, 0);
 	public boolean held;
 	public boolean pressed;
 	public boolean released;
@@ -25,7 +34,7 @@ public class Key {
 
 
 	public static Key getKey(String id) {
-		for (Key k : Game.keys) {
+		for (Key k : keys) {
 			if (k.id == id) {
 				return k;
 			}

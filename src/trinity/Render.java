@@ -96,10 +96,10 @@ public class Render {
 						Level.draw(g);
 
 						g.setColor(Color.LIGHT_GRAY);
-						g.drawOval(Game.mouse.x - 10, Game.mouse.y - 10, 20, 20);
-						g.drawLine(0, 0, Game.mouse.x, Game.mouse.y);
+						g.drawOval(Key.mousePos.x - 10, Key.mousePos.y - 10, 20, 20);
+						g.drawLine(0, 0, Key.mousePos.x, Key.mousePos.y);
 						if (Level.images.get("pointer") != null) {
-							drawImage(g, Level.images.get("pointer"), new Point2D.Float(Game.mouse.x, Game.mouse.y));
+							drawImage(g, Level.images.get("pointer"), new Point2D.Float(Key.mousePos.x, Key.mousePos.y));
 						}
 
 						g.dispose();

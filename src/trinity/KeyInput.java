@@ -7,7 +7,7 @@ public class KeyInput implements KeyListener{
 	
 
 	public static void reset() {
-		for (Key k : Game.keys) {
+		for (Key k : Key.keys) {
 			k.pressed = false;
 			k.released = false;
 		}
@@ -20,7 +20,7 @@ public class KeyInput implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		for (Key k : Game.keys) {
+		for (Key k : Key.keys) {
 			if (k.key == e.getKeyCode()&&!k.isMouse) {
 				k.held = true;
 				k.pressed = true;
@@ -30,7 +30,7 @@ public class KeyInput implements KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		for (Key k : Game.keys) {
+		for (Key k : Key.keys) {
 			if (k.key == e.getKeyCode()&&!k.isMouse) {
 				k.held = false;
 				k.released = true;

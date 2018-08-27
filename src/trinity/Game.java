@@ -15,8 +15,7 @@ import java.util.Random;
 
 public class Game {
 	
-	public static List<Key> keys = Collections.synchronizedList(new ArrayList<Key>());
-	static Point mouse = new Point(0, 0);
+	
 
 	public static String trinitySubgamePath = System.getProperty("user.dir") + "/..";
 
