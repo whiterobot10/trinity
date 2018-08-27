@@ -9,12 +9,12 @@ import java.awt.image.BufferedImage;
 
 public class Entity {
 
-	int layer;
-	Point2D.Float pos;
-	Point2D.Float vel;
+	public int layer;
+	public Point2D.Float pos;
+	public Point2D.Float vel;
 	boolean solid = true;
 	boolean left = false;
-	Shape hitbox = new Rectangle(0,0,0,0);
+	public Shape hitbox = new Rectangle(0,0,0,0);
 
 	public static BufferedImage image = Level.images.get("pointer");
 
