@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.geom.Point2D.Float;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -14,7 +13,7 @@ public class MenuSelecter extends Entity {
 	static int lRJump = 4;
 	static ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 
-	public MenuSelecter(Float pos) {
+	public MenuSelecter(Twin pos) {
 		super(pos);
 		menuItems.clear();
 		for (Entity e : Level.currentLevel.entities) {

@@ -7,13 +7,13 @@ public class CartrageMenuItem extends MenuItem {
 
 	String cartrage;
 
-	public CartrageMenuItem(Float pos, String text) {
+	public CartrageMenuItem(Twin pos, String text) {
 		super(pos, text);
 		cartrage = text;
 	}
 
-	public CartrageMenuItem(Float pos, String text, String cartrage) {
-		super(pos, text);
+	public CartrageMenuItem(Twin twin, String text, String cartrage) {
+		super(twin, text);
 		this.cartrage = cartrage;
 	}
 

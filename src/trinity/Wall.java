@@ -11,33 +11,33 @@ import trinity.Render;
 public class Wall {
 
 	int layer;
-	Point2D.Float pos;
-	Point2D.Float size;
+	Twin pos;
+	Twin size;
 
 	boolean solid = true;
 
 	public static BufferedImage image = null;
 
-	public Wall(Point2D.Float pos, Point2D.Float size) {
+	public Wall(Twin pos, Twin size) {
 		this.pos = pos;
 		this.size = size;
 		layer = 0;
 	}
 
-	public Wall(Point2D.Float pos, Point2D.Float size, boolean solid) {
+	public Wall(Twin pos, Twin size, boolean solid) {
 		this.pos = pos;
 		this.size = size;
 		this.solid = solid;
 		layer = 0;
 	}
 
-	public Wall(Point2D.Float pos, Point2D.Float size, int layer) {
+	public Wall(Twin pos, Twin size, int layer) {
 		this.pos = pos;
 		this.size = size;
 		this.layer = layer;
 	}
 
-	public Wall(Point2D.Float pos, Point2D.Float size, boolean solid, int layer) {
+	public Wall(Twin pos, Twin size, boolean solid, int layer) {
 		this.pos = pos;
 		this.size = size;
 		this.solid = solid;

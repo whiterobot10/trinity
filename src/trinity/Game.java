@@ -33,15 +33,15 @@ public class Game {
 		Level.levels.put(null, new Level());
 		Level.currentLevel = Level.levels.get(null);
 		
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(10, 20), "Low Battery", "low_battery"));
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(10, 40), "Low Battery", "low_battery"));
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(10, 60), "Low Battery", "low_battery"));
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(10, 80), "Low Battery", "low_battery"));
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(100, 20), "Low Battery", "low_battery"));
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(100, 40), "Low Battery", "low_battery"));
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(100, 60), "Low Battery", "low_battery"));
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Point2D.Float(100, 80), "Low Battery", "low_battery"));
-		Level.currentLevel.entities.add(new MenuSelecter(new Point2D.Float(0, 0)));
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 20), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 40), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 60), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 80), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(100, 20), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(100, 40), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(100, 60), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(100, 80), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new MenuSelecter(new Twin(0, 0)));
 	
 		
 

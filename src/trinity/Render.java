@@ -60,7 +60,7 @@ public class Render {
 		frame.add(canvas);
 		frame.pack();
 		frame.setResizable(false);
-		//frame.setLocationRelativeTo(null);
+		// frame.setLocationRelativeTo(null);
 
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -102,8 +102,7 @@ public class Render {
 						g.drawOval(Key.mousePos.x - 10, Key.mousePos.y - 10, 20, 20);
 						g.drawLine(0, 0, Key.mousePos.x, Key.mousePos.y);
 						if (Level.images.get("pointer") != null) {
-							drawImage(g, Level.images.get("pointer"),
-									new Point2D.Float(Key.mousePos.x, Key.mousePos.y));
+							drawImage(g, Level.images.get("pointer"), new Twin(Key.mousePos.x, Key.mousePos.y));
 						}
 
 						g.dispose();
@@ -207,16 +206,16 @@ public class Render {
 		}
 	}
 
-	public static void drawImage(Graphics2D g, BufferedImage image, Point2D.Float pos) {
+	public static void drawImage(Graphics2D g, BufferedImage image, Twin pos) {
 		drawImage(g, image, pos, false, false, 0);
 	}
 
-	public static void drawImage(Graphics2D g, BufferedImage image, Point2D.Float pos, boolean flipped) {
+	public static void drawImage(Graphics2D g, BufferedImage image, Twin pos, boolean flipped) {
 		drawImage(g, image, pos, flipped, false, 0);
 	}
 
-	public static void drawImage(Graphics2D g, BufferedImage image, Point2D.Float pos, boolean flippedHorz,
-			boolean flippedVert, int rotate) {
+	public static void drawImage(Graphics2D g, BufferedImage image, Twin pos, boolean flippedHorz, boolean flippedVert,
+			int rotate) {
 
 		int horzMult = 1;
 		int vertMult = 1;
@@ -228,12 +227,13 @@ public class Render {
 		}
 		int width = image.getWidth();
 		int height = image.getWidth();
-		
-		g.rotate(rotate, pos.x, pos.y);
+
+		g.rotate(Math.toRadians(rotate), pos.x, pos.y);
 
 		g.drawImage(image, (int) (pos.x) - (width / 2) * horzMult, (int) (pos.y) - (height / 2) * vertMult,
 				width * horzMult, (height * vertMult), null);
 
+		g.rotate(-Math.toRadians(rotate), pos.x, pos.y);
 //		if (flippedHorz && flippedVert) {
 //			g.drawImage(image, (int) pos.x + (image.getWidth() / 2), (int) pos.y + (image.getHeight() / 2),
 //					-image.getWidth(), -image.getHeight(), null);
@@ -249,7 +249,7 @@ public class Render {
 //		}
 	}
 
-	public static void drawString(Graphics g, Point2D.Float pos, String text) {
+	public static void drawString(Graphics g, Twin pos, String text) {
 		g.setColor(Color.BLACK);
 		g.drawString(text, (int) pos.x + 10, (int) pos.y + 4);
 	}

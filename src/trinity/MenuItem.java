@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 public class MenuItem extends Entity{
 
 	String text;
-	public MenuItem(Point2D.Float pos, String text) {
+	public MenuItem(Twin pos, String text) {
 		super(pos);
 		this.text = text;
 	}

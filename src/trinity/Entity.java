@@ -11,8 +11,8 @@ import java.awt.image.BufferedImage;
 public class Entity {
 
 	public int layer;
-	public Point2D.Float pos;
-	public Point2D.Float vel;
+	public Twin pos;
+	public Twin vel;
 	boolean solid = true;
 	boolean left = false;
 	static float moveCheckAcc = 1.5f;
@@ -21,27 +21,27 @@ public class Entity {
 	public static BufferedImage image = Level.images.get("pointer");
 
 	public Entity() {
-		pos = new Point2D.Float(0, 0);
+		pos = new Twin(0, 0);
 		layer = 0;
 	}
 
-	public Entity(Point2D.Float pos) {
+	public Entity(Twin pos) {
 		this.pos = pos;
 		layer = 0;
 
 	}
 
-	public Entity(Point2D.Float pos, boolean solid) {
+	public Entity(Twin pos, boolean solid) {
 		this(pos);
 		this.solid = solid;
 	}
 
-	public Entity(Point2D.Float pos, int layer) {
+	public Entity(Twin pos, int layer) {
 		this(pos);
 		this.layer = layer;
 	}
 
-	public Entity(Point2D.Float pos, int layer, boolean solid) {
+	public Entity(Twin pos, int layer, boolean solid) {
 		this(pos, layer);
 		this.solid = solid;
 	}
@@ -58,7 +58,7 @@ public class Entity {
 
 	}
 
-	public void drawSegment(Graphics2D g, BufferedImage image, Point2D.Float pos) {
+	public void drawSegment(Graphics2D g, BufferedImage image, Twin pos) {
 		if (left) {
 			pos.x *= -1;
 		}
@@ -82,7 +82,7 @@ public class Entity {
 		}
 	}
 
-	public boolean move(Point2D.Float target, float step) {
+	public boolean move(Twin target, float step) {
 
 		if (target.distance(pos) < step) {
 			step = (float) target.distance(pos);
