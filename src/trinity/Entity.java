@@ -2,6 +2,7 @@ package trinity;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
@@ -57,7 +58,7 @@ public class Entity {
 
 	}
 
-	public void drawSegment(Graphics g, BufferedImage image, Point2D.Float pos) {
+	public void drawSegment(Graphics2D g, BufferedImage image, Point2D.Float pos) {
 		if (left) {
 			pos.x *= -1;
 		}
@@ -68,7 +69,7 @@ public class Entity {
 
 	}
 
-	public void draw(Graphics g, int layer) {
+	public void draw(Graphics2D g, int layer) {
 		if (layer == this.layer) {
 			drawSegment(g, image, pos);
 			if (Game.debug) {

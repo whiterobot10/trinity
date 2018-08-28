@@ -1,6 +1,7 @@
 package trinity;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +50,7 @@ public class Level {
 
 	}
 
-	public static void draw(Graphics g) {
+	public static void draw(Graphics2D g) {
 		if (currentLevel != null) {
 			synchronized (Level.currentLevel.entities) {
 				synchronized (Level.currentLevel.walls) {

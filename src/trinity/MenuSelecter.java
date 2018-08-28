@@ -2,6 +2,7 @@ package trinity;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D.Float;
 import java.awt.image.BufferedImage;
@@ -64,7 +65,7 @@ public class MenuSelecter extends Entity {
 	}
 
 	@Override
-	public void draw(Graphics g, int layer) {
+	public void draw(Graphics2D g, int layer) {
 		if (layer == this.layer) {
 			drawSegment(g, image, menuItems.get(selectedItem).pos);
 			if (Game.debug) {

@@ -2,6 +2,7 @@ package trinity;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
@@ -12,7 +13,7 @@ public class Wall {
 	int layer;
 	Point2D.Float pos;
 	Point2D.Float size;
-	
+
 	boolean solid = true;
 
 	public static BufferedImage image = null;
@@ -43,7 +44,7 @@ public class Wall {
 		this.layer = layer;
 	}
 
-	public void draw(Graphics g, int Layer) {
+	public void draw(Graphics2D g, int Layer) {
 		if (Game.debug) {
 			g.setColor(Color.red);
 			g.fillRect((int) (pos.x - (size.x / 2)), (int) (pos.y - (size.y / 2)), (int) size.x, (int) size.y);

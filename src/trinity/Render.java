@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -90,7 +91,7 @@ public class Render {
 
 						Level.update();
 
-						Graphics g = gameScreen.getGraphics();
+						Graphics2D g = gameScreen.createGraphics();
 
 						g.setColor(Color.white);
 						g.fillRect(0, 0, gameSize.width, gameSize.height);
@@ -107,10 +108,10 @@ public class Render {
 
 						g.dispose();
 
-						g = canvas.getGraphics();
+						Graphics g2 = canvas.getGraphics();
 
-						g.drawImage(gameScreen, 0, 0, gameSize.width * sizeFactor, gameSize.height * sizeFactor, null);
-						g.dispose();
+						g2.drawImage(gameScreen, 0, 0, gameSize.width * sizeFactor, gameSize.height * sizeFactor, null);
+						g2.dispose();
 					}
 				}
 			}
@@ -206,16 +207,16 @@ public class Render {
 		}
 	}
 
-	public static void drawImage(Graphics g, BufferedImage image, Point2D.Float pos) {
-		drawImage(g, image, pos, false, false);
+	public static void drawImage(Graphics2D g, BufferedImage image, Point2D.Float pos) {
+		drawImage(g, image, pos, false, false, 0);
 	}
 
-	public static void drawImage(Graphics g, BufferedImage image, Point2D.Float pos, boolean flipped) {
-		drawImage(g, image, pos, flipped, false);
+	public static void drawImage(Graphics2D g, BufferedImage image, Point2D.Float pos, boolean flipped) {
+		drawImage(g, image, pos, flipped, false, 0);
 	}
 
-	public static void drawImage(Graphics g, BufferedImage image, Point2D.Float pos, boolean flippedHorz,
-			boolean flippedVert) {
+	public static void drawImage(Graphics2D g, BufferedImage image, Point2D.Float pos, boolean flippedHorz,
+			boolean flippedVert, int rotate) {
 
 		int horzMult = 1;
 		int vertMult = 1;
@@ -227,6 +228,8 @@ public class Render {
 		}
 		int width = image.getWidth();
 		int height = image.getWidth();
+		
+		g.rotate(rotate, pos.x, pos.y);
 
 		g.drawImage(image, (int) (pos.x) - (width / 2) * horzMult, (int) (pos.y) - (height / 2) * vertMult,
 				width * horzMult, (height * vertMult), null);
