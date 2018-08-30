@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Random;
 
 public class Game {
-	
-	
 
 	public static String trinitySubgamePath = System.getProperty("user.dir") + "/..";
 
@@ -24,7 +22,7 @@ public class Game {
 	public static boolean debug = true;
 
 	public static String currentName = "dummy";
-	
+
 	public static Random random = new Random();
 
 	public static void main(String[] args) {
@@ -32,7 +30,7 @@ public class Game {
 		Level.clear();
 		Level.levels.put(null, new Level());
 		Level.currentLevel = Level.levels.get(null);
-		
+
 		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 20), "Low Battery", "low_battery"));
 		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 40), "Low Battery", "low_battery"));
 		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 60), "Low Battery", "low_battery"));
@@ -42,8 +40,11 @@ public class Game {
 		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(100, 60), "Low Battery", "low_battery"));
 		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(100, 80), "Low Battery", "low_battery"));
 		Level.currentLevel.entities.add(new MenuSelecter(new Twin(0, 0)));
-	
-		
+
+		float test = 0.7f;
+		float test2 = 0.9f;
+
+		System.out.println((test + 0.1) + " " + (test2 - 0.1));
 
 	}
 
@@ -56,8 +57,8 @@ public class Game {
 			throws MalformedURLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
 		File file = new File(path);
-		if(file.exists()) {
-			System.out.println(path+" is valid.");
+		if (file.exists()) {
+			System.out.println(path + " is valid.");
 		}
 
 		// Convert File to a URL
@@ -69,18 +70,10 @@ public class Game {
 		URLClassLoader cl = new URLClassLoader(urls);
 		// Load in the class; MyClass.class should be located in
 		// the directory file:/c:/myclasses/com/mycompany
-		
-		System.out.println(classname);
-		
-		
-		
 
-		
+		System.out.println(classname);
+
 		Class cls = cl.loadClass(classname);
-		
-		
-		
-		
 
 		cls.getConstructors();
 //		try {
@@ -97,7 +90,7 @@ public class Game {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		//return
+		// return
 		cls.newInstance();
 	}
 

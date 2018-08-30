@@ -12,14 +12,13 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.geom.Point2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
 import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 
-import trinity.Level;
+import javax.imageio.ImageIO;
 
 public class Render {
 
@@ -74,6 +73,10 @@ public class Render {
 		startRendering();
 
 	}
+	
+	public static Twin getGameSize() {
+		return new Twin(gameSize);
+	}
 
 	private static void startRendering() {
 		Thread thread = new Thread() {
@@ -98,12 +101,9 @@ public class Render {
 
 						Level.draw(g);
 
-						g.setColor(Color.LIGHT_GRAY);
-						g.drawOval(Key.mousePos.x - 10, Key.mousePos.y - 10, 20, 20);
-						g.drawLine(0, 0, Key.mousePos.x, Key.mousePos.y);
-						if (Level.images.get("pointer") != null) {
-							drawImage(g, Level.images.get("pointer"), new Twin(Key.mousePos.x, Key.mousePos.y));
-						}
+//						if (Level.images.get("pointer") != null) {
+//							drawImage(g, Level.images.get("pointer"), new Twin(Key.mousePos.x, Key.mousePos.y));
+//						}
 
 						g.dispose();
 
@@ -215,8 +215,16 @@ public class Render {
 	}
 
 	public static void drawImage(Graphics2D g, BufferedImage image, Twin pos, boolean flippedHorz, boolean flippedVert,
-			int rotate) {
-
+			float rotate) {
+		rotate %= 4;
+		int yoff = 0;
+		int xoff = 0;
+//		if (rotate == 1 || rotate == 2) {
+//			yoff = -1;
+//		}
+//		if (rotate == 2 || rotate == 3) {
+//			xoff = -1;
+//		}
 		int horzMult = 1;
 		int vertMult = 1;
 		if (flippedHorz) {
@@ -226,27 +234,55 @@ public class Render {
 			vertMult = -1;
 		}
 		int width = image.getWidth();
-		int height = image.getWidth();
+		int height = image.getHeight();
 
-		g.rotate(Math.toRadians(rotate), pos.x, pos.y);
+		AffineTransform old = g.getTransform();
+		g.rotate(Math.toRadians(rotate * 90), pos.ix(), pos.iy());
+		// g.rotate(-Math.toRadians(rotate), pos.x, pos.y);
 
-		g.drawImage(image, (int) (pos.x) - (width / 2) * horzMult, (int) (pos.y) - (height / 2) * vertMult,
+		g.drawImage(image, pos.ix() + xoff - (width / 2) * horzMult, pos.iy() + yoff - (height / 2) * vertMult,
 				width * horzMult, (height * vertMult), null);
+		g.setTransform(old);
 
-		g.rotate(-Math.toRadians(rotate), pos.x, pos.y);
-//		if (flippedHorz && flippedVert) {
-//			g.drawImage(image, (int) pos.x + (image.getWidth() / 2), (int) pos.y + (image.getHeight() / 2),
-//					-image.getWidth(), -image.getHeight(), null);
-//		} else if (flippedHorz) {
-//			g.drawImage(image, (int) pos.x + (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
-//					-image.getWidth(), image.getHeight(), null);
-//		} else if (flippedVert) {
-//			g.drawImage(image, (int) pos.x - (image.getWidth() / 2), (int) pos.y + (image.getHeight() / 2),
-//					image.getWidth(), -image.getHeight(), null);
-//		} else {
-//			g.drawImage(image, (int) pos.x - (image.getWidth() / 2), (int) pos.y - (image.getHeight() / 2),
-//					image.getWidth(), image.getHeight(), null);
-//		}
+	}
+
+	public static void DrawChain(Graphics2D g, BufferedImage image, Twin pos, Twin pos2, float space) {
+		// g.drawLine(pos.ix(), pos.iy(), pos2.ix(), pos2.iy());
+		for (float i = 0; i < pos.distance(pos2); i += space) {
+			int rad = 0;
+			if (Math.abs(pos2.y - pos.y) < Math.abs((pos2.x - pos.x))) {
+				rad = 1;
+			}
+
+			if (rad == 0 && pos2.y - pos.y > 0) {
+				rad = 2;
+			}
+			if (rad == 1 && pos2.x - pos.x < 0) {
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				rad = 3;
+			}
+			drawImage(g, image, pos.move((pos2.x - pos.x) * (i / pos.distance(pos2)),
+					(pos2.y - pos.y) * (i / pos.distance(pos2)), false), false, false, rad);
+		}
 	}
 
 	public static void drawString(Graphics g, Twin pos, String text) {

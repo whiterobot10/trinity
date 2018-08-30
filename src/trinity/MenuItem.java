@@ -1,6 +1,7 @@
 package trinity;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 
 public class MenuItem extends Entity{
@@ -11,7 +12,8 @@ public class MenuItem extends Entity{
 		this.text = text;
 	}
 	
-	public void draw(Graphics g, int layer) {
+	@Override
+	public void draw(Graphics2D g, int layer) {
 		if (layer == this.layer) {
 			Render.drawString(g, pos, text);
 			

@@ -17,10 +17,13 @@ public class Stat {
 	public Stat(float base) {
 		this.base = base;
 		value = base;
+		System.out.println(value + " test");
 	}
 
 	public Stat(float base, float max) {
-
+		this.base = base;
+		value = base;
+		this.max = max;
 	}
 
 	public void addMod(StatMod m) {
@@ -35,7 +38,7 @@ public class Stat {
 			}
 		}
 		value = base;
-		float valueMult = 0;
+		float valueMult = 1;
 		for (StatMod m : mods) {
 			if (m.mult) {
 				valueMult += m.mod;
@@ -44,23 +47,24 @@ public class Stat {
 			}
 
 		}
-		value *= valueMult;
+		// value *= valueMult;
+		value = base;
 
 	}
 
-	public float getValue() {
-		float returnValue = base;
-		float returnValueMult = 0;
-		for (StatMod m : mods) {
-			if (m.mult) {
-				returnValueMult += m.mod;
-			} else {
-				returnValue += m.mod;
-			}
-
-		}
-		return returnValue * returnValueMult;
-
-	}
+//	public float getValue() {
+//		float returnValue = base;
+//		float returnValueMult = 0;
+//		for (StatMod m : mods) {
+//			if (m.mult) {
+//				returnValueMult += m.mod;
+//			} else {
+//				returnValue += m.mod;
+//			}
+//
+//		}
+//		return returnValue * returnValueMult;
+//
+//	}
 
 }

@@ -12,7 +12,7 @@ import java.util.List;
 public class Key {
 	
 	public static List<Key> keys = Collections.synchronizedList(new ArrayList<Key>());
-	static Point mousePos = new Point(0, 0);
+	public static Twin mousePos = new Twin(0, 0);
 	public boolean held;
 	public boolean pressed;
 	public boolean released;

@@ -14,7 +14,7 @@ public class Entity {
 	public Twin pos;
 	public Twin vel;
 	boolean solid = true;
-	boolean left = false;
+	public boolean left = false;
 	static float moveCheckAcc = 1.5f;
 	public Shape hitbox = new Rectangle(0, 0, 0, 0);
 
@@ -58,20 +58,17 @@ public class Entity {
 
 	}
 
-	public void drawSegment(Graphics2D g, BufferedImage image, Twin pos) {
+	public void drawSegment(Graphics2D g, BufferedImage image, Twin pos, int rotations) {
 		if (left) {
 			pos.x *= -1;
 		}
-		Render.drawImage(g, image, pos, left);
-		if (left) {
-			pos.x *= -1;
-		}
+		Render.drawImage(g, image, this.pos.move(pos, false), left, false, rotations);
 
 	}
 
 	public void draw(Graphics2D g, int layer) {
 		if (layer == this.layer) {
-			drawSegment(g, image, pos);
+			drawSegment(g, image);
 			if (Game.debug) {
 				g.setColor(Color.red);
 				Rectangle foo = hitbox.getBounds();
@@ -82,12 +79,17 @@ public class Entity {
 		}
 	}
 
+	public void drawSegment(Graphics2D g, BufferedImage image) {
+		drawSegment(g, image, new Twin(), 0);
+
+	}
+
 	public boolean move(Twin target, float step) {
 
 		if (target.distance(pos) < step) {
 			step = (float) target.distance(pos);
 		}
-		if (step <= 0.02) {
+		if (step <= 0.0001) {
 			return true;
 		}
 		float mult_x = target.x - pos.x;
