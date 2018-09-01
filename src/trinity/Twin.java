@@ -83,7 +83,5 @@ public class Twin {
 		float px = pos.x - x;
 		float py = pos.y - y;
 		return (float) Math.sqrt(px * px + py * py);
-		// return (float) Math.sqrt(Math.pow(pos.x + this.x, 2) + Math.pow(pos.y +
-		// this.y, 2));
 	}
 }

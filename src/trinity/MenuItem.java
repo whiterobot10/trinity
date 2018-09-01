@@ -14,7 +14,7 @@ public class MenuItem extends Entity{
 	
 	@Override
 	public void draw(Graphics2D g, int layer) {
-		if (layer == this.layer) {
+		if (layer == 0) {
 			Render.drawString(g, pos, text);
 			
 		}

@@ -5,12 +5,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 public class Entity {
 
-	public int layer;
 	public Twin pos;
 	public Twin vel;
 	boolean solid = true;
@@ -22,12 +22,10 @@ public class Entity {
 
 	public Entity() {
 		pos = new Twin(0, 0);
-		layer = 0;
 	}
 
 	public Entity(Twin pos) {
 		this.pos = pos;
-		layer = 0;
 
 	}
 
@@ -36,25 +34,8 @@ public class Entity {
 		this.solid = solid;
 	}
 
-	public Entity(Twin pos, int layer) {
-		this(pos);
-		this.layer = layer;
-	}
-
-	public Entity(Twin pos, int layer, boolean solid) {
-		this(pos, layer);
-		this.solid = solid;
-	}
 
 	public void update() {
-
-	}
-
-	public void damage(float amount) {
-		damage(amount, null);
-	}
-
-	public void damage(float amount, String type) {
 
 	}
 
@@ -67,7 +48,7 @@ public class Entity {
 	}
 
 	public void draw(Graphics2D g, int layer) {
-		if (layer == this.layer) {
+		if (layer == 0) {
 			drawSegment(g, image);
 			if (Game.debug) {
 				g.setColor(Color.red);
@@ -105,17 +86,46 @@ public class Entity {
 			pos.x += (step / checks) * mult_x;
 			pos.y += (step / checks) * mult_y;
 			if (clsnCheck()) {
-				pos.x -= (step / checks) * mult_x;
 				pos.y -= (step / checks) * mult_y;
-				return false;
+				if (clsnCheck()) {
+					pos.y += (step / checks) * mult_y;
+					pos.x -= (step / checks) * mult_x;
+					if (clsnCheck()) {
+						return false;
+					}
+
+				}
 			}
 
 		}
 		return true;
+
 	}
 
 	private boolean clsnCheck() {
+		for (Entity e : Level.currentLevel.entities) {
+			if (e.solid && e != this && hitbox().getBounds2D().intersects(e.hitbox().getBounds2D())) {
+				Area foo = new Area(hitbox());
+				foo.intersect(new Area(e.hitbox()));
+				if (!foo.isEmpty()) {
+					return true;
+				}
+			}
+		}
+		for (Wall w : Level.currentLevel.walls) {
+			if (w.solid && hitbox().getBounds2D().intersects(w.hitbox().getBounds2D())) {
+				Area foo = new Area(hitbox());
+				foo.intersect(new Area(w.hitbox()));
+				if (!foo.isEmpty()) {
+					return true;
+				}
+			}
+		}
 		return false;
+	}
+
+	public Shape hitbox() {
+		return new Rectangle(pos.ix() - 5, pos.iy() - 5, 10, 10);
 	}
 
 }

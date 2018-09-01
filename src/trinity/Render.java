@@ -73,7 +73,7 @@ public class Render {
 		startRendering();
 
 	}
-	
+
 	public static Twin getGameSize() {
 		return new Twin(gameSize);
 	}
@@ -258,26 +258,7 @@ public class Render {
 				rad = 2;
 			}
 			if (rad == 1 && pos2.x - pos.x < 0) {
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+
 				rad = 3;
 			}
 			drawImage(g, image, pos.move((pos2.x - pos.x) * (i / pos.distance(pos2)),

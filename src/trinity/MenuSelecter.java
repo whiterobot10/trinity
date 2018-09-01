@@ -65,7 +65,7 @@ public class MenuSelecter extends Entity {
 
 	@Override
 	public void draw(Graphics2D g, int layer) {
-		if (layer == this.layer) {
+		if (layer == 0) {
 			drawSegment(g, image, menuItems.get(selectedItem).pos, 0);
 			if (Game.debug) {
 				g.setColor(Color.red);

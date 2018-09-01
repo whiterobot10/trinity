@@ -19,7 +19,7 @@ public class Game {
 
 	public static boolean running = true;
 
-	public static boolean debug = true;
+	public static boolean debug = false;
 
 	public static String currentName = "dummy";
 
