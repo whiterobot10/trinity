@@ -29,7 +29,7 @@ public class Render {
 
 	private static Dimension canvasSize;
 	private static Dimension gameSize;
-	public static int sizeFactor = 0;
+	public static float sizeFactor = 0;
 	public static int canvasLayers;
 
 	private static long lastFpsCheck = 0;
@@ -44,7 +44,7 @@ public class Render {
 		canvasSize = new Dimension(0, 0);
 
 		getBestSize(Toolkit.getDefaultToolkit().getScreenSize());
-
+		// getBestSize(new Dimension(500, 500));
 		frame = new Frame();
 		canvas = new Canvas();
 
@@ -109,7 +109,8 @@ public class Render {
 
 						Graphics g2 = canvas.getGraphics();
 
-						g2.drawImage(gameScreen, 0, 0, gameSize.width * sizeFactor, gameSize.height * sizeFactor, null);
+						g2.drawImage(gameScreen, 0, 0, (int) (gameSize.width * sizeFactor),
+								(int) (gameSize.height * sizeFactor), null);
 						g2.dispose();
 					}
 				}
@@ -142,15 +143,28 @@ public class Render {
 	}
 
 	private static void getBestSize(Dimension screenSize) {
-		System.out.println("HI");
-		canvasSize = new Dimension(gameSize.width, gameSize.height);
-		sizeFactor = 1;
-		while (screenSize.width > canvasSize.width + gameSize.width
-				&& screenSize.height > canvasSize.height + gameSize.height) {
-			canvasSize = new Dimension(canvasSize.width + gameSize.width, canvasSize.height + gameSize.height);
-			sizeFactor++;
-		}
+//		sizeFactor = 1;
+//		while (screenSize.width > canvasSize.width + gameSize.width
+//				&& screenSize.height > canvasSize.height + gameSize.height) {
+//			canvasSize = new Dimension(canvasSize.width + gameSize.width, canvasSize.height + gameSize.height);
+//			sizeFactor++;
+//		}
 		// canvasSize = screenSize;
+
+		// 100, (50, 25)
+		// 2, 4;
+		double fooX = screenSize.width * 1.0 / gameSize.width;
+		double fooY = screenSize.height * 1.0 / gameSize.height;
+		System.out.println(screenSize.width * 1.0 + " " + screenSize.height * 1.0);
+		if (fooX < fooY) {
+			canvasSize = new Dimension((int) (gameSize.width * fooX), (int) (gameSize.height * fooX));
+			sizeFactor = (float) fooX;
+		} else {
+			canvasSize = new Dimension((int) (gameSize.width * fooY), (int) (gameSize.height * fooY));
+			sizeFactor = (float) fooY;
+		}
+		System.out.println(fooX + " " + fooY);
+		System.out.println(canvasSize.width + " " + canvasSize.height);
 
 	}
 
@@ -185,9 +199,9 @@ public class Render {
 			gameScreen = canvas.getGraphicsConfiguration().createCompatibleVolatileImage(d.width, d.height);
 		} else {
 			gameScreen = canvas.getGraphicsConfiguration().createCompatibleVolatileImage(d.width, d.height);
-			getBestSize(Toolkit.getDefaultToolkit().getScreenSize());
 			gameSize = d;
-			frame.setSize(d.width * sizeFactor, d.height * sizeFactor);
+			getBestSize(Toolkit.getDefaultToolkit().getScreenSize());	
+			frame.setSize((int) (d.width * sizeFactor), (int) (d.height * sizeFactor));
 
 		}
 

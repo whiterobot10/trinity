@@ -34,7 +34,6 @@ public class Entity {
 		this.solid = solid;
 	}
 
-
 	public void update() {
 
 	}
@@ -81,24 +80,36 @@ public class Entity {
 		mult_y /= div;
 
 		int checks = (int) (target.distance(pos) * moveCheckAcc);
-
+		boolean worked = false;
 		for (int i = 0; i < checks; i++) {
+			worked = true;
 			pos.x += (step / checks) * mult_x;
 			pos.y += (step / checks) * mult_y;
 			if (clsnCheck()) {
+
 				pos.y -= (step / checks) * mult_y;
+				
+
 				if (clsnCheck()) {
-					pos.y += (step / checks) * mult_y;
 					pos.x -= (step / checks) * mult_x;
-					if (clsnCheck()) {
-						return false;
+					if (Math.abs((step / checks) * mult_y) < 0.001) {
+						worked = false;
+					}
+				}
+
+				pos.y += (step / checks) * mult_y;
+				if (Math.abs((step / checks) * mult_y) > 0.001 && clsnCheck()) {
+					pos.y -= (step / checks) * mult_y;
+					if (Math.abs((step / checks) * mult_x) < 0.001) {
+						worked = false;
 					}
 
 				}
+
 			}
 
 		}
-		return true;
+		return worked;
 
 	}
 
