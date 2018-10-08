@@ -6,12 +6,7 @@ import java.awt.event.KeyListener;
 public class KeyInput implements KeyListener{
 	
 
-	public static void reset() {
-		for (Key k : Key.keys) {
-			k.pressed = false;
-			k.released = false;
-		}
-	}
+	
 
 	@Override
 	public void keyTyped(KeyEvent e) {

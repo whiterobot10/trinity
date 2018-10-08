@@ -8,15 +8,17 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Entity {
 
 	public Twin pos;
 	public Twin vel;
-	boolean solid = true;
+	public boolean solid = true;
 	public boolean left = false;
 	static float moveCheckAcc = 1.5f;
 	public Shape hitbox = new Rectangle(0, 0, 0, 0);
+	public boolean remove = false;
 
 	public static BufferedImage image = Level.images.get("pointer");
 
@@ -64,14 +66,22 @@ public class Entity {
 
 	}
 
-	public boolean move(Twin target, float step) {
+	public boolean move(Twin amount) {
+		amount = pos.move(amount, false);
+		return moveTwords(amount, pos.distance(amount));
+	}
+
+
+
+	public boolean moveTwords(Twin target, float step) {
 
 		if (target.distance(pos) < step) {
-			step = (float) target.distance(pos);
+			step = target.distance(pos);
 		}
 		if (step <= 0.0001) {
 			return true;
 		}
+
 		float mult_x = target.x - pos.x;
 		float mult_y = target.y - pos.y;
 
@@ -88,7 +98,6 @@ public class Entity {
 			if (clsnCheck()) {
 
 				pos.y -= (step / checks) * mult_y;
-				
 
 				if (clsnCheck()) {
 					pos.x -= (step / checks) * mult_x;
@@ -96,7 +105,6 @@ public class Entity {
 						worked = false;
 					}
 				}
-
 				pos.y += (step / checks) * mult_y;
 				if (Math.abs((step / checks) * mult_y) > 0.001 && clsnCheck()) {
 					pos.y -= (step / checks) * mult_y;
@@ -113,7 +121,21 @@ public class Entity {
 
 	}
 
-	private boolean clsnCheck() {
+	protected ArrayList<Entity> clsnObjects() {
+		ArrayList<Entity> bar = new ArrayList<Entity>();
+		for (Entity e : Level.currentLevel.entities) {
+			if (e.solid && e != this && hitbox().getBounds2D().intersects(e.hitbox().getBounds2D())) {
+				Area foo = new Area(hitbox());
+				foo.intersect(new Area(e.hitbox()));
+				if (!foo.isEmpty()) {
+					bar.add(e);
+				}
+			}
+		}
+		return bar;
+	}
+
+	protected boolean clsnCheck() {
 		for (Entity e : Level.currentLevel.entities) {
 			if (e.solid && e != this && hitbox().getBounds2D().intersects(e.hitbox().getBounds2D())) {
 				Area foo = new Area(hitbox());
@@ -123,7 +145,9 @@ public class Entity {
 				}
 			}
 		}
+
 		for (Wall w : Level.currentLevel.walls) {
+
 			if (w.solid && hitbox().getBounds2D().intersects(w.hitbox().getBounds2D())) {
 				Area foo = new Area(hitbox());
 				foo.intersect(new Area(w.hitbox()));

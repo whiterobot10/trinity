@@ -17,7 +17,6 @@ public class Stat {
 	public Stat(float base) {
 		this.base = base;
 		value = base;
-		System.out.println(value + " test");
 	}
 
 	public Stat(float base, float max) {

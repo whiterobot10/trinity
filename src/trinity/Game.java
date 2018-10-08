@@ -41,11 +41,6 @@ public class Game {
 		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(100, 80), "Low Battery", "low_battery"));
 		Level.currentLevel.entities.add(new MenuSelecter(new Twin(0, 0)));
 
-		float test = 0.7f;
-		float test2 = 0.9f;
-
-		System.out.println((test + 0.1) + " " + (test2 - 0.1));
-
 	}
 
 	public static void quit() {

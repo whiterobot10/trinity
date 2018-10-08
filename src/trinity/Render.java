@@ -24,7 +24,7 @@ public class Render {
 
 	private static boolean fullscreen = false;
 
-	private static Frame frame;
+	public static Frame frame;
 	private static Canvas canvas;
 
 	private static Dimension canvasSize;
@@ -52,9 +52,11 @@ public class Render {
 		if (fullscreen) {
 			makeFullscreen();
 		}
-		frame.addKeyListener(new KeyInput());
+		canvas.addKeyListener(new KeyInput());
 		canvas.addMouseListener(new MouseInput());
 		canvas.addMouseMotionListener(new MouseMotionInput());
+		canvas.setFocusable(true);
+		canvas.requestFocus();
 
 		frame.add(canvas);
 		frame.pack();
@@ -200,7 +202,7 @@ public class Render {
 		} else {
 			gameScreen = canvas.getGraphicsConfiguration().createCompatibleVolatileImage(d.width, d.height);
 			gameSize = d;
-			getBestSize(Toolkit.getDefaultToolkit().getScreenSize());	
+			getBestSize(Toolkit.getDefaultToolkit().getScreenSize());
 			frame.setSize((int) (d.width * sizeFactor), (int) (d.height * sizeFactor));
 
 		}
@@ -283,6 +285,20 @@ public class Render {
 	public static void drawString(Graphics g, Twin pos, String text) {
 		g.setColor(Color.BLACK);
 		g.drawString(text, (int) pos.x + 10, (int) pos.y + 4);
+	}
+
+	public static BufferedImage tile(BufferedImage b, int x, int y) {
+		BufferedImage foo = new BufferedImage(b.getWidth()*x, b.getHeight()*y, b.getType());
+		Graphics2D g = foo.createGraphics();
+		for(int i = 0; i < x; i++) {
+			for(int j = 0; j < x; j++) {
+				g.drawImage(b, i*b.getWidth(), j*b.getHeight(), null);
+			}
+		}
+				
+				
+		return foo;
+
 	}
 
 }
