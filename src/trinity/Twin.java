@@ -53,34 +53,41 @@ public class Twin {
 	}
 
 	public Twin move(float x, float y) {
-		return move(x, y, true);
+		this.x+=x;
+		this.y+=y;
+		return new Twin(this);
 	}
 
 	public Twin move(Twin move) {
-		return move(move.x, move.y, true);
+		return move(move.x, move.y);
 	}
 
-	public Twin move(Twin move, boolean shift) {
-		return move(move.x, move.y, shift);
+	public Twin offset(Twin move) {
+		return offset(move.x, move.y);
 	}
 
-	public Twin move(float x, float y, boolean shift) {
-		if (shift) {
-			this.x += x;
-			this.y += y;
-			return new Twin(this);
-		} else {
+	public Twin offset(float x, float y) {
+
 			return new Twin(this.x + x, this.y + y);
-		}
+		
+	}
+	
+	public double getRot(Twin target) {
+		return Math.toDegrees(Math.atan2(target.x - x, y - target.y));
 	}
 
 	public int rotBreak(Twin target, int sections, float offsetPercent) {
-		double targetRot = Math.toDegrees(Math.atan2(target.x - x, y - target.y));
+		double targetRot = this.getRot(target);
+		if (targetRot<0) {
+			targetRot+=360;
+		}
 		targetRot += offsetPercent * (360.0 / sections);
 		int foo = (int) (Math.round(targetRot / (360.0 / sections)));
-		if ((sections / 2) * 2 == sections && foo == sections / -2) {
-			foo *= -1;
-		}
+		//System.out.println((360.0 / sections)+" "+targetRot+" "+(targetRot / (360.0 / sections)));
+	
+//		if ((sections / 2) * 2 == sections && foo == sections / -2) {
+//			foo *= -1;
+//		}
 		return foo;
 	}
 
@@ -91,11 +98,27 @@ public class Twin {
 	}
 
 	public Twin getTwords(Twin shift, float i) {
-		float foo = distance(shift) / i;
-		return new Twin(x + ((shift.x - x) / foo), y + ((shift.y - y) / foo));
+		float foo = distance(shift);
+		return new Twin(x + ((shift.x - x) / foo)*i, y + ((shift.y - y) / foo)*i);
 	}
 	public Twin getTwordsAmount(Twin shift, float i) {
-		float foo = distance(shift) / i;
-		return new Twin((shift.x - x) / foo, y + (shift.y - y) / foo);
+		float foo = distance(shift) ;
+		return new Twin( ((shift.x - x) / foo)*i,  ((shift.y - y) / foo)*i);
+	}
+	
+	@Override
+	public String toString() {
+		return x+" "+y;
+	}
+
+	public Twin unit() {
+		float foo = (float)(Math.pow(x, 2)+Math.pow(y, 2));
+		
+		return new Twin(x/foo, y/foo);
+	}
+
+	public double getRot() {
+	
+		return Math.toDegrees(Math.atan2(x, y));
 	}
 }

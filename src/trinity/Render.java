@@ -36,6 +36,8 @@ public class Render {
 	private static int desiredFPS = 60;
 	private static VolatileImage gameScreen;
 
+	
+
 	public static void init(Dimension gameSize, int canvasLayers) {
 
 		Render.gameSize = gameSize;
@@ -262,24 +264,61 @@ public class Render {
 
 	}
 
-	public static void DrawChain(Graphics2D g, BufferedImage image, Twin pos, Twin pos2, float space) {
-		// g.drawLine(pos.ix(), pos.iy(), pos2.ix(), pos2.iy());
-		for (float i = 0; i < pos.distance(pos2); i += space) {
-			int rad = 0;
-			if (Math.abs(pos2.y - pos.y) < Math.abs((pos2.x - pos.x))) {
-				rad = 1;
-			}
-
-			if (rad == 0 && pos2.y - pos.y > 0) {
-				rad = 2;
-			}
-			if (rad == 1 && pos2.x - pos.x < 0) {
-
-				rad = 3;
-			}
-			drawImage(g, image, pos.move((pos2.x - pos.x) * (i / pos.distance(pos2)),
-					(pos2.y - pos.y) * (i / pos.distance(pos2)), false), false, false, rad);
+	public static void DrawChain(Graphics2D g, Segment image, Twin pos, int lenght, int space, double rotation) {
+		
+		//Segment foo = new Segment(tile(image.getImage(), 1, lenght/(image.getImage().getHeight()+space), 0, space));
+		//foo.Draw(g, pos, new Twin(-image.getImage().getWidth(),0), false, rotation);
+		for(int i = 0; i < lenght; i++) {
+			image.Draw(g, pos, new Twin(), false, rotation);
 		}
+		
+		// g.drawLine(pos.ix(), pos.iy(), pos2.ix(), pos2.iy());
+//		int j = 0;
+//
+//		g.drawImage(
+//				image.getImage().getScaledInstance(image.getImage().getWidth() / 2, image.getImage().getHeight(), 0), 0,
+//				0, null);
+//
+//		if (Math.abs(pos2.x - pos.x) > Math.abs(pos2.y - pos.y)) {
+//
+//			for (int i = 1; i < Math.abs(pos2.x - pos.x); i += space) {
+//				int rad = 0;
+//				if (Math.abs(pos2.y - pos.y) < Math.abs((pos2.x - pos.x))) {
+//					rad = 1;
+//				}
+//
+//				if (rad == 0 && pos2.y - pos.y > 0) {
+//					rad = 2;
+//				}
+//				if (rad == 1 && pos2.x - pos.x < 0) {
+//
+//					rad = 3;
+//				}
+//				image.Draw(g, pos, new Twin(i * ((pos2.x - pos.x) / Math.abs(pos2.x - pos.x)),
+//						(pos2.y - pos.y) * (i / Math.abs(pos2.x - pos.x))), false, pos.getRot(pos2) + rotation);
+////				drawImage(g, image, pos.offset(i*((pos2.x - pos.x)/Math.abs(pos2.x - pos.x)), (pos2.y - pos.y) * (i / Math.abs(pos2.x - pos.x))), false,
+////						false, rad);
+//			}
+//		} else {
+//			for (float i = 1; i < Math.abs(pos2.y - pos.y); i += space) {
+//				int rad = 0;
+//				if (Math.abs(pos2.y - pos.y) < Math.abs((pos2.x - pos.x))) {
+//					rad = 1;
+//				}
+//
+//				if (rad == 0 && pos2.y - pos.y > 0) {
+//					rad = 2;
+//				}
+//				if (rad == 1 && pos2.x - pos.x < 0) {
+//
+//					rad = 3;
+//				}
+////				drawImage(g, image, pos.offset((pos2.x - pos.x) * (i / Math.abs(pos2.y - pos.y)), i*((pos2.y - pos.y)/Math.abs(pos2.y - pos.y))), false,
+////						false, rad);
+//				image.Draw(g, pos, new Twin((pos2.x - pos.x) * (i / Math.abs(pos2.y - pos.y)),
+//						i * ((pos2.y - pos.y) / Math.abs(pos2.y - pos.y))), false, pos.getRot(pos2) + rotation);
+//			}
+//		}
 	}
 
 	public static void drawString(Graphics g, Twin pos, String text) {
@@ -288,15 +327,19 @@ public class Render {
 	}
 
 	public static BufferedImage tile(BufferedImage b, int x, int y) {
-		BufferedImage foo = new BufferedImage(b.getWidth()*x, b.getHeight()*y, b.getType());
+		return tile(b, x, y, 0, 0);
+
+	}
+	
+	public static BufferedImage tile(BufferedImage b, int x, int y, int xSpace, int ySpace) {
+		BufferedImage foo = new BufferedImage(b.getWidth() * x + xSpace * (x-1), b.getHeight() * y + ySpace * (y-1), b.getType());
 		Graphics2D g = foo.createGraphics();
-		for(int i = 0; i < x; i++) {
-			for(int j = 0; j < x; j++) {
-				g.drawImage(b, i*b.getWidth(), j*b.getHeight(), null);
+		for (int i = 0; i < x; i++) {
+			for (int j = 0; j < y; j++) {
+				g.drawImage(b, i * (b.getWidth()+xSpace), j * (b.getHeight()+ySpace), null);
 			}
 		}
-				
-				
+
 		return foo;
 
 	}

@@ -13,8 +13,8 @@ import trinity.Render;
 
 public class Wall {
 
-	Twin pos;
-	Twin size;
+	protected Twin pos;
+	protected Twin size;
 
 	boolean solid = true;
 

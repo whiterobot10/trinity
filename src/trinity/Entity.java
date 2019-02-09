@@ -9,6 +9,10 @@ import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Comparator;
+
+
+
 
 public class Entity {
 
@@ -44,7 +48,7 @@ public class Entity {
 		if (left) {
 			pos.x *= -1;
 		}
-		Render.drawImage(g, image, this.pos.move(pos, false), left, false, rotations);
+		Render.drawImage(g, image, this.pos.offset(pos), left, false, rotations);
 
 	}
 
@@ -67,18 +71,19 @@ public class Entity {
 	}
 
 	public boolean move(Twin amount) {
-		amount = pos.move(amount, false);
+		amount = pos.offset(amount);
+		System.out.println("pN" + pos.distance(amount));
 		return moveTwords(amount, pos.distance(amount));
 	}
 
+	public boolean moveTwords(Twin target, float amount) {
 
+		float distanceToMove = target.distance(pos);
 
-	public boolean moveTwords(Twin target, float step) {
-
-		if (target.distance(pos) < step) {
-			step = target.distance(pos);
+		if (distanceToMove > amount) {
+			distanceToMove = amount;
 		}
-		if (step <= 0.0001) {
+		if (amount <= 0.0001) {
 			return true;
 		}
 
@@ -90,33 +95,68 @@ public class Entity {
 		mult_y /= div;
 
 		int checks = (int) (target.distance(pos) * moveCheckAcc);
-		boolean worked = false;
-		for (int i = 0; i < checks; i++) {
-			worked = true;
-			pos.x += (step / checks) * mult_x;
-			pos.y += (step / checks) * mult_y;
+		boolean worked = true;
+		while (distanceToMove >= 0.0001) {
+			//System.out.println(distanceToMove+" "+pos.x+" "+pos.y);
+			float bar = Math.min(distanceToMove, 1.0f/16);
+			// distanceToMove -= bar;
+			pos.x += bar * mult_x;
+			pos.y += bar * mult_y;
 			if (clsnCheck()) {
+				pos.x -= bar * mult_x;
+				pos.y -= bar * mult_y;
 
-				pos.y -= (step / checks) * mult_y;
-
-				if (clsnCheck()) {
-					pos.x -= (step / checks) * mult_x;
-					if (Math.abs((step / checks) * mult_y) < 0.001) {
-						worked = false;
+				pos.x += bar * mult_x;
+				if (clsnCheck()||Math.abs(mult_x)<=0.0001) {
+					pos.x -= bar * mult_x;
+					pos.y += bar * mult_y;
+					if (clsnCheck()||Math.abs(mult_y)<=0.0001) {
+						pos.y -= bar * mult_y;
+						return false;
+					} else {
+						distanceToMove -= Math.abs(bar * mult_y);
+						worked=false;
 					}
-				}
-				pos.y += (step / checks) * mult_y;
-				if (Math.abs((step / checks) * mult_y) > 0.001 && clsnCheck()) {
-					pos.y -= (step / checks) * mult_y;
-					if (Math.abs((step / checks) * mult_x) < 0.001) {
-						worked = false;
-					}
 
+				} else {
+					distanceToMove -= Math.abs(bar * mult_x);
+					worked=false;
 				}
-
+				
+				
+				
+			} else {
+				distanceToMove -= Math.abs(bar);
 			}
 
 		}
+//		for (int i = 0; i < checks; i++) {
+//			worked = true;
+//			pos.x += (step / checks) * mult_x;
+//			pos.y += (step / checks) * mult_y;
+//			if (clsnCheck()) {
+//
+//				pos.y -= (step / checks) * mult_y;
+//				pos.x += (step / checks) * mult_x;
+//
+//				if (clsnCheck()) {
+//					pos.x -= (step / checks) * mult_x;
+//					if (Math.abs((step / checks) * mult_y) < 0.001) {
+//						worked = false;
+//					}
+//				}
+//				pos.y += (step / checks) * mult_y;
+//				if (Math.abs((step / checks) * mult_y) > 0.001 && clsnCheck()) {
+//					pos.y -= (step / checks) * mult_y;
+//					if (Math.abs((step / checks) * mult_x) < 0.001) {
+//						worked = false;
+//					}
+//
+//				}
+//
+//			}
+//
+//		}
 		return worked;
 
 	}

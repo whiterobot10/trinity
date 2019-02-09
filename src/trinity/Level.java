@@ -7,12 +7,23 @@ import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
 import com.sun.glass.events.KeyEvent;
 
+class SortbyY implements Comparator<Entity>{
+	public int compare(Entity o1, Entity o2) {
+		return (int) (o1.pos.y-o2.pos.y);
+	}
+}
+
+
+
 public class Level {
+	
+	Comparator<Entity> entitySorter = new SortbyY();
 
 	public static HashMap<String, BufferedImage> images = new HashMap<String, BufferedImage>();
 	public static HashMap<String, Level> levels = new HashMap<String, Level>();
@@ -27,14 +38,14 @@ public class Level {
 	public static List<Entity> newEntities = Collections.synchronizedList(new ArrayList<Entity>());
 	public List<Wall> walls = Collections.synchronizedList(new ArrayList<Wall>());
 	public static List<Wall> newWalls = Collections.synchronizedList(new ArrayList<Wall>());
-	public List<Tile> tiles = Collections.synchronizedList(new ArrayList<Tile>());
-	public static List<Tile> newTiles = Collections.synchronizedList(new ArrayList<Tile>());
+	public Tile[][] tiles = new Tile[100][100];
+	public int tileSize = 16;
 
 	public static void clear() {
 		levels.clear();
 		images.clear();
 		Key.reset = true;
-		Key.resetKeys();
+		//Key.resetKeys();
 		images.put("pointer", Render.loadImage("trinity", "pointer.png"));
 		images.put("tileset.null", Render.loadImage("trinity", "tileset/null.png"));
 
@@ -49,14 +60,10 @@ public class Level {
 			}
 			Level.currentLevel.entities.addAll(Level.newEntities);
 			Level.currentLevel.walls.addAll(Level.newWalls);
-			Level.currentLevel.tiles.addAll(Level.newTiles);
-			if (!newTiles.isEmpty()) {
-				for (Tile t : Level.currentLevel.tiles) {
-					t.Update();
-				}
+			if(!Level.newEntities.isEmpty()&&Level.currentLevel.entitySorter!=null) {
+				Collections.sort(Level.currentLevel.entities, Level.currentLevel.entitySorter); 
 			}
 			Level.newEntities.clear();
-			Level.newTiles.clear();
 			Level.newWalls.clear();
 			for (int i = 0; i < Level.currentLevel.entities.size(); i++) {
 				if (Level.currentLevel.entities.get(i).remove) {
@@ -76,7 +83,7 @@ public class Level {
 
 			synchronized (Level.currentLevel.entities) {
 				synchronized (Level.currentLevel.walls) {
-					synchronized (Level.currentLevel.tiles) {
+				
 						for (int i = 0; i < Render.canvasLayers; i++) {
 							for (Entity e : currentLevel.entities) {
 								e.draw(g, i);
@@ -84,10 +91,7 @@ public class Level {
 							for (Wall e : currentLevel.walls) {
 								e.draw(g, i);
 							}
-							for (Tile e : currentLevel.tiles) {
-								e.draw(g, i);
-							}
-						}
+							Tile.draw(g, currentLevel.tileSize, i, currentLevel.tiles);	
 					}
 				}
 			}
