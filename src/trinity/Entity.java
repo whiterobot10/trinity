@@ -72,7 +72,7 @@ public class Entity {
 
 	public boolean move(Twin amount) {
 		amount = pos.offset(amount);
-		System.out.println("pN" + pos.distance(amount));
+		//System.out.println("pN" + pos.distance(amount));
 		return moveTwords(amount, pos.distance(amount));
 	}
 

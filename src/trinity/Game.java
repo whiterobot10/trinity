@@ -21,7 +21,7 @@ public class Game {
 
 	public static boolean debug = false;
 
-	public static String currentName = "dummy";
+	public static String currentName = "trinity";
 
 	public static Random random = new Random();
 
@@ -33,7 +33,7 @@ public class Game {
 
 		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 20), "Low Battery", "low_battery"));
 		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 40), "Evo Sym", "evo_sym"));
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 60), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 60), "Disk Game", "disk_game"));
 		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 80), "Low Battery", "low_battery"));
 		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(100, 20), "Low Battery", "low_battery"));
 		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(100, 40), "Low Battery", "low_battery"));

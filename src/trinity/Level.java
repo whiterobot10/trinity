@@ -29,7 +29,7 @@ public class Level {
 	public static HashMap<String, Level> levels = new HashMap<String, Level>();
 
 	{
-		images.put("pointer", Render.loadImage("trinity", "pointer.png"));
+		importImage("pointer.png", "trinity");
 	}
 
 	public static Level currentLevel = null;
@@ -40,14 +40,28 @@ public class Level {
 	public static List<Wall> newWalls = Collections.synchronizedList(new ArrayList<Wall>());
 	public Tile[][] tiles = new Tile[100][100];
 	public int tileSize = 16;
+	
+	public static void importImage(String path) {
+		String foo = path.toLowerCase();
+		foo = foo.replace('/', '.');
+		foo = foo.replace(".png", "");
+
+		
+		images.put(foo, Render.loadImage(path));
+		}
+
+	private void importImage(String path, String target) {
+		images.put(path, Render.loadImage(path, target));
+		
+	}
 
 	public static void clear() {
 		levels.clear();
 		images.clear();
 		Key.reset = true;
 		//Key.resetKeys();
-		images.put("pointer", Render.loadImage("trinity", "pointer.png"));
-		images.put("tileset.null", Render.loadImage("trinity", "tileset/null.png"));
+		images.put("pointer", Render.loadImage("pointer.png", "trinity"));
+		images.put("tileset.null", Render.loadImage("tileset/null.png", "trinity"));
 
 	}
 
@@ -75,11 +89,13 @@ public class Level {
 		Key.resetKeys();
 
 	}
+	
 
 	public static void draw(Graphics2D g) {
 
 		if (currentLevel != null) {
 			//g.drawImage(Render.tile(images.get("pointer"), 5, 5), 0, 0, null);
+
 
 			synchronized (Level.currentLevel.entities) {
 				synchronized (Level.currentLevel.walls) {

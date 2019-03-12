@@ -67,7 +67,6 @@ public class Twin {
 	}
 
 	public Twin offset(float x, float y) {
-
 			return new Twin(this.x + x, this.y + y);
 		
 	}
@@ -120,5 +119,15 @@ public class Twin {
 	public double getRot() {
 	
 		return Math.toDegrees(Math.atan2(x, y));
+	}
+
+	public Twin fix() {
+		if(!(x>0)&&!(x==0)&&!(x<0)) {
+			x=0;
+		}
+		if(!(y>0)&&!(y==0)&&!(y<0)) {
+			y=0;
+		}
+		return this;
 	}
 }

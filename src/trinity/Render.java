@@ -159,7 +159,7 @@ public class Render {
 		// 2, 4;
 		double fooX = screenSize.width * 1.0 / gameSize.width;
 		double fooY = screenSize.height * 1.0 / gameSize.height;
-		System.out.println(screenSize.width * 1.0 + " " + screenSize.height * 1.0);
+		//System.out.println(screenSize.width * 1.0 + " " + screenSize.height * 1.0);
 		if (fooX < fooY) {
 			canvasSize = new Dimension((int) (gameSize.width * fooX), (int) (gameSize.height * fooX));
 			sizeFactor = (float) fooX;
@@ -167,8 +167,8 @@ public class Render {
 			canvasSize = new Dimension((int) (gameSize.width * fooY), (int) (gameSize.height * fooY));
 			sizeFactor = (float) fooY;
 		}
-		System.out.println(fooX + " " + fooY);
-		System.out.println(canvasSize.width + " " + canvasSize.height);
+		//System.out.println(fooX + " " + fooY);
+		//System.out.println(canvasSize.width + " " + canvasSize.height);
 
 	}
 
@@ -181,10 +181,10 @@ public class Render {
 		return canvasSize;
 	}
 
-	public static BufferedImage loadImage(String path) {
+	public static BufferedImage loadImage(String path, String target) {
 		BufferedImage rawImage;
 		try {
-			rawImage = ImageIO.read(new File(Game.trinitySubgamePath + "/" + Game.currentName + "/gfx/" + path));
+			rawImage = ImageIO.read(new File(Game.trinitySubgamePath + "/" + target + "/gfx/" + path));
 			BufferedImage finalImage = canvas.getGraphicsConfiguration().createCompatibleImage(rawImage.getWidth(),
 					rawImage.getHeight(), rawImage.getTransparency());
 			finalImage.getGraphics().drawImage(rawImage, 0, 0, null);
@@ -194,6 +194,10 @@ public class Render {
 			return null;
 		}
 
+	}
+	
+	public static BufferedImage loadImage(String path) {
+		return loadImage(path, Game.currentName);
 	}
 
 	public static void fixDisplay(Dimension d) {
@@ -211,18 +215,6 @@ public class Render {
 
 	}
 
-	public static BufferedImage loadImage(String game, String path) {
-		try {
-			BufferedImage rawImage = ImageIO.read(new File(Game.trinitySubgamePath + "/" + game + "/gfx/" + path));
-			BufferedImage finalImage = canvas.getGraphicsConfiguration().createCompatibleImage(rawImage.getWidth(),
-					rawImage.getHeight(), rawImage.getTransparency());
-			finalImage.getGraphics().drawImage(rawImage, 0, 0, null);
-			return finalImage;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 
 	public static void drawImage(Graphics2D g, BufferedImage image, Twin pos) {
 		drawImage(g, image, pos, false, false, 0);
