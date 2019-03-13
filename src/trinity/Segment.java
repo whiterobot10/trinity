@@ -40,6 +40,9 @@ public class Segment {
 	}
 
 	public void Draw(Graphics2D g, Twin core_pos, Twin offset, boolean mirrorX, double rotation) {
+		if (offset == null) {
+			offset=new Twin(0,0);
+		}
 
 		if (mirrorX) {
 			offset = offset.move(offset.x * -2, 0);
@@ -96,6 +99,7 @@ public class Segment {
 
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
 		op.filter(image, placeHolderImage);
+		
 
 		if (mirrorX) {
 			g.drawImage(placeHolderImage, core_pos.ix() + offset.ix() +placeHolderImage.getWidth()/2,

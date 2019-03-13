@@ -3,6 +3,7 @@ package trinity;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class Level {
 	Comparator<Entity> entitySorter = new SortbyY();
 
 	public static HashMap<String, BufferedImage> images = new HashMap<String, BufferedImage>();
-	public static HashMap<String, Level> levels = new HashMap<String, Level>();
+	public static ArrayList<Level> levels = new ArrayList<Level>();
 
 	{
 		importImage("pointer.png", "trinity");
@@ -92,9 +93,13 @@ public class Level {
 	
 
 	public static void draw(Graphics2D g) {
+		
+		
 
 		if (currentLevel != null) {
 			//g.drawImage(Render.tile(images.get("pointer"), 5, 5), 0, 0, null);
+			AffineTransform old = g.getTransform();
+			g.setTransform((AffineTransform) Render.scroll.clone());
 
 
 			synchronized (Level.currentLevel.entities) {
@@ -111,6 +116,7 @@ public class Level {
 					}
 				}
 			}
+		g.setTransform(old);
 		}
 	}
 

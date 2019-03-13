@@ -156,6 +156,7 @@ abstract public class Tile {
 			return;
 		}
 		int foo = (size + 1) / 2;
+		
 		g.drawImage(image.getSubimage(size * offset0, 0, foo, foo), pos.ix() * size, pos.iy() * size, null);
 		g.drawImage(image.getSubimage(size * offset1 + foo, 0, foo, foo), pos.ix() * size + size / 2, pos.iy() * size,
 				null);

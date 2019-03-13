@@ -28,8 +28,8 @@ public class Game {
 	public static void main(String[] args) {
 		Render.init(new Dimension(160, 120), 1);
 		Level.clear();
-		Level.levels.put(null, new Level());
-		Level.currentLevel = Level.levels.get(null);
+		Level.levels.add(new Level());
+		Level.currentLevel = Level.levels.get(0);
 
 		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 20), "Low Battery", "low_battery"));
 		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 40), "Evo Sym", "evo_sym"));

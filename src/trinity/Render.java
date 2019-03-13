@@ -35,6 +35,9 @@ public class Render {
 	private static long lastFpsCheck = 0;
 	private static int desiredFPS = 60;
 	private static VolatileImage gameScreen;
+	
+	public static AffineTransform scroll = AffineTransform.getTranslateInstance(0, 0);
+	public static Twin scrollOffset= new Twin(40,40);
 
 	
 

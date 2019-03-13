@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -18,7 +19,7 @@ public class Wall {
 
 	boolean solid = true;
 
-	public static BufferedImage image = null;
+	public static Segment image = null;
 
 	public Wall(Twin pos, Twin size) {
 		this.pos = pos;
@@ -33,10 +34,9 @@ public class Wall {
 	public void draw(Graphics2D g, int Layer) {
 		if (Layer == 0) {
 			if (image != null) {
-				Render.drawImage(g, image, pos, true);
+				image.Draw(g, pos, null, false, 0);
 			} else {
-				g.setColor(Color.black);
-				g.fill(hitbox());
+				new Segment (Level.images.get("pointer")).Draw(g, pos, null, false, 0);
 			}
 
 		}
