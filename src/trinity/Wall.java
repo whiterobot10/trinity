@@ -34,9 +34,9 @@ public class Wall {
 	public void draw(Graphics2D g, int Layer) {
 		if (Layer == 0) {
 			if (image != null) {
-				image.Draw(g, pos, null, false, 0);
+				image.Draw(g, pos, null, null, 0);
 			} else {
-				new Segment (Level.images.get("pointer")).Draw(g, pos, null, false, 0);
+				new Segment (Level.images.get("pointer"),1).Draw(g, pos, null, null, 0);
 			}
 
 		}

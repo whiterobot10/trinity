@@ -9,6 +9,7 @@ import javafx.scene.shape.Line;
 public class Twin {
 	public float x = 0;
 	public float y = 0;
+	public static final Twin zero = new Twin();
 
 	public Twin() {
 
@@ -50,6 +51,10 @@ public class Twin {
 
 	public int iy() {
 		return (int) y;
+	}
+	
+	public boolean equals(Twin twin) {
+		return (twin.x==x&&twin.y==y);
 	}
 
 	public Twin move(float x, float y) {

@@ -220,14 +220,11 @@ public class Render {
 
 
 	public static void drawImage(Graphics2D g, BufferedImage image, Twin pos) {
-		drawImage(g, image, pos, false, false, 0);
+		drawImage(g, image, pos, null, 0);
 	}
 
-	public static void drawImage(Graphics2D g, BufferedImage image, Twin pos, boolean flipped) {
-		drawImage(g, image, pos, flipped, false, 0);
-	}
 
-	public static void drawImage(Graphics2D g, BufferedImage image, Twin pos, boolean flippedHorz, boolean flippedVert,
+	public static void drawImage(Graphics2D g, BufferedImage image, Twin pos, Twin scale,
 			float rotate) {
 		rotate %= 4;
 		int yoff = 0;
@@ -238,14 +235,7 @@ public class Render {
 //		if (rotate == 2 || rotate == 3) {
 //			xoff = -1;
 //		}
-		int horzMult = 1;
-		int vertMult = 1;
-		if (flippedHorz) {
-			horzMult = -1;
-		}
-		if (flippedVert) {
-			vertMult = -1;
-		}
+		
 		int width = image.getWidth();
 		int height = image.getHeight();
 
@@ -253,8 +243,8 @@ public class Render {
 		g.rotate(Math.toRadians(rotate * 90), pos.ix(), pos.iy());
 		// g.rotate(-Math.toRadians(rotate), pos.x, pos.y);
 
-		g.drawImage(image, pos.ix() + xoff - (width / 2) * horzMult, pos.iy() + yoff - (height / 2) * vertMult,
-				width * horzMult, (height * vertMult), null);
+		g.drawImage(image, pos.ix() + xoff - (width / 2) * scale.ix(), pos.iy() + yoff - (height / 2) * scale.iy(),
+				width * scale.ix(), (height * scale.iy()), null);
 		g.setTransform(old);
 
 	}
@@ -264,7 +254,7 @@ public class Render {
 		//Segment foo = new Segment(tile(image.getImage(), 1, lenght/(image.getImage().getHeight()+space), 0, space));
 		//foo.Draw(g, pos, new Twin(-image.getImage().getWidth(),0), false, rotation);
 		for(int i = 0; i < lenght; i++) {
-			image.Draw(g, pos, new Twin(), false, rotation);
+			image.Draw(g, pos, null, null, 0);
 		}
 		
 		// g.drawLine(pos.ix(), pos.iy(), pos2.ix(), pos2.iy());

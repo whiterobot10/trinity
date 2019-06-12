@@ -19,7 +19,7 @@ public class Entity {
 	public Twin pos;
 	public Twin vel;
 	public boolean solid = true;
-	public boolean left = false;
+	public Twin scale = new Twin(1, 1);
 	static float moveCheckAcc = 1.5f;
 	public Shape hitbox = new Rectangle(0, 0, 0, 0);
 	public boolean remove = false;
@@ -45,10 +45,8 @@ public class Entity {
 	}
 
 	public void drawSegment(Graphics2D g, BufferedImage image, Twin pos, int rotations) {
-		if (left) {
-			pos.x *= -1;
-		}
-		Render.drawImage(g, image, this.pos.offset(pos), left, false, rotations);
+		
+		Render.drawImage(g, image, this.pos.offset(pos), scale, rotations);
 
 	}
 
