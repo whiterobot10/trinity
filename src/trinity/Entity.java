@@ -1,15 +1,12 @@
 package trinity;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 
 
@@ -92,7 +89,7 @@ public class Entity {
 		mult_x /= div;
 		mult_y /= div;
 
-		int checks = (int) (target.distance(pos) * moveCheckAcc);
+		//int checks = (int) (target.distance(pos) * moveCheckAcc);
 		boolean worked = true;
 		while (distanceToMove >= 0.0001) {
 			//System.out.println(distanceToMove+" "+pos.x+" "+pos.y);

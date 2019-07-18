@@ -4,8 +4,6 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
-import javafx.scene.shape.Line;
-
 public class Twin {
 	public float x = 0;
 	public float y = 0;
@@ -107,7 +105,7 @@ public class Twin {
 	}
 	public Twin getTwordsAmount(Twin shift, float i) {
 		float foo = distance(shift) ;
-		return new Twin( ((shift.x - x) / foo)*i,  ((shift.y - y) / foo)*i);
+		return new Twin( ((shift.x - x) / foo)*i, ((shift.y - y) / foo)*i);
 	}
 	
 	@Override
@@ -123,7 +121,7 @@ public class Twin {
 
 	public double getRot() {
 	
-		return Math.toDegrees(Math.atan2(x, y));
+		return Math.toDegrees(Math.atan2(x, -y));
 	}
 
 	public Twin fix() {

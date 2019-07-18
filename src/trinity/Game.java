@@ -1,21 +1,16 @@
 package trinity;
 
 import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 public class Game {
 
-	public static String trinitySubgamePath = System.getProperty("user.dir") + "/..";
+	public static String trinitySubgamePath = System.getProperty("user.dir") + "/cartridges/";
 
 	public static boolean running = true;
 
@@ -31,14 +26,14 @@ public class Game {
 		Level.levels.add(new Level());
 		Level.currentLevel = Level.levels.get(0);
 
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 20), "Low Battery", "low_battery"));
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 40), "Evo Sym", "evo_sym"));
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 60), "Disk Game", "disk_game"));
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(10, 80), "Drone", "counter_warfare"));
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(100, 20), "Low Battery", "low_battery"));
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(100, 40), "Low Battery", "low_battery"));
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(100, 60), "Low Battery", "low_battery"));
-		Level.currentLevel.entities.add(new CartrageMenuItem(new Twin(100, 80), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartridgeMenuItem(new Twin(10, 20), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartridgeMenuItem(new Twin(10, 40), "Evo Sym", "evo_sym"));
+		Level.currentLevel.entities.add(new CartridgeMenuItem(new Twin(10, 60), "Disk Game", "disk_game"));
+		Level.currentLevel.entities.add(new CartridgeMenuItem(new Twin(10, 80), "Drone", "counter_warfare"));
+		Level.currentLevel.entities.add(new CartridgeMenuItem(new Twin(100, 20), "Folding Generator 1", "folding_generator_1"));
+		Level.currentLevel.entities.add(new CartridgeMenuItem(new Twin(100, 40), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartridgeMenuItem(new Twin(100, 60), "Low Battery", "low_battery"));
+		Level.currentLevel.entities.add(new CartridgeMenuItem(new Twin(100, 80), "Low Battery", "low_battery"));
 		Level.currentLevel.entities.add(new MenuSelecter(new Twin(0, 0)));
 
 	}
@@ -68,7 +63,14 @@ public class Game {
 
 		System.out.println(classname);
 
-		Class cls = cl.loadClass(classname);
+		Class<?> cls = cl.loadClass(classname);
+	
+		try {
+			cl.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		cls.getConstructors();
 //		try {

@@ -1,0 +1,69 @@
+point vertline1A 200.0 0.0
+point vertline1B 200.0 2000.0
+line vertline1 vertline1A vertline1B 2
+
+point vertline2A 400.0 0.0
+point vertline2B 500.0 2000.0
+line vertline2 vertline2A vertline2B 5
+
+point vertline3A 600.0 0.0
+point vertline3B 600.0 2000.0
+line vertline3 vertline3A vertline3B 2
+
+point vertline4A 800.0 0.0
+point vertline4B 900.0 2000.0
+line vertline4 vertline4A vertline4B 5
+
+point vertline5A 1000.0 0.0
+point vertline5B 1000.0 2000.0
+line vertline5 vertline5A vertline5B 2
+
+point vertline6A 1200.0 0.0
+point vertline6B 1300.0 2000.0
+line vertline6 vertline6A vertline6B 5
+
+point vertline7A 1400.0 0.0
+point vertline7B 1400.0 2000.0
+line vertline7 vertline7A vertline7B 2
+
+point vertline8A 1600.0 0.0
+point vertline8B 1700.0 2000.0
+line vertline8 vertline8A vertline8B 5
+
+point vertline9A 1800.0 0.0
+point vertline9B 1800.0 2000.0
+line vertline9 vertline9A vertline9B 2
+
+
+pointOnLine point1 vertline1 0.5 false
+pointOnLine point2 vertline2 0.5 false
+
+line connectLine1 point1 point2 1
+
+reflection connectLine2 connectLine1 vertline2 0
+intersectPoint intersect2 connectLine2 vertline3
+line connectLine2a point2 intersect2 1
+
+reflection connectLine3 connectLine2 vertline3 0
+intersectPoint intersect3 connectLine3 vertline4
+line connectLine3a intersect2 intersect3 1
+
+reflection connectLine4 connectLine3 vertline4 0
+intersectPoint intersect4 connectLine4 vertline5
+line connectLine4a intersect3 intersect4 1
+
+reflection connectLine5 connectLine4 vertline5 0
+intersectPoint intersect5 connectLine5 vertline6
+line connectLine5a intersect4 intersect5 1
+
+reflection connectLine6 connectLine5 vertline6 0
+intersectPoint intersect6 connectLine6 vertline7
+line connectLine6a intersect5 intersect6 1
+
+reflection connectLine7 connectLine6 vertline7 0
+intersectPoint intersect7 connectLine7 vertline8
+line connectLine7a intersect6 intersect7 1
+
+reflection connectLine8 connectLine7 vertline8 0
+intersectPoint intersect8 connectLine8 vertline9
+line connectLine8a intersect7 intersect8 1

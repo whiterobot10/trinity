@@ -1,0 +1,89 @@
+point Center 1000 1000
+point A 0 0
+point B 1000 0
+point C 2000 0
+point D 2000 1000
+point E 2000 2000
+point F 1000 2000
+point G 0 2000
+point H 0 1000 
+
+
+line a A Center 0
+line b B Center 0
+line c C Center 0
+line d D Center 0
+line e E Center 0
+line f F Center 0
+line g G Center 0
+line h H Center 0
+
+line ae E A 0
+line bf B F 0
+line cg C G 0
+line dh D H 0
+
+
+
+
+pointOnLine aPoint1 a 0.5 false
+pointOnLine bPoint1 b 0.5 false
+
+line a1 aPoint1 Center 0
+line a2 aPoint1 A 0
+
+line b1 bPoint1 Center 0
+line b2 bPoint1 B 0
+
+pointOnLine aPoint2 a1 0.5 false
+pointOnLine bPoint2 b1 0.5 false
+
+pointOnLine aPoint3 a2 0.5 false
+pointOnLine bPoint3 b2 0.5 false
+
+line aR1 aPoint1 bPoint1 4
+line aR2 aPoint2 bPoint2 1
+line aR3 aPoint3 bPoint3 1
+
+
+line aD1 A aPoint3 1
+line aD2 aPoint3 aPoint1 4
+line aD3 aPoint1 aPoint2 1
+line aD4 aPoint2 Center 4
+
+line bD1 B bPoint3 4
+line bD2 bPoint3 bPoint1 1
+line bD3 bPoint1 bPoint2 4
+line bD4 bPoint2 Center 1
+
+reflection cD1 aD1 bf 1
+reflection cD2 aD2 bf 4
+reflection cD3 aD3 bf 1
+reflection cD4 aD4 bf 4
+
+reflection dD1 bD1 cg 4
+reflection dD2 bD2 cg 1
+reflection dD3 bD3 cg 4
+reflection dD4 bD4 cg 1
+
+reflection eD1 aD1 cg 1
+reflection eD2 aD2 cg 4
+reflection eD3 aD3 cg 1
+reflection eD4 aD4 cg 4
+
+reflection fD1 bD1 dh 4
+reflection fD2 bD2 dh 1
+reflection fD3 bD3 dh 4
+reflection fD4 bD4 dh 1
+
+reflection gD1 aD1 dh 1
+reflection gD2 aD2 dh 4
+reflection gD3 aD3 dh 1
+reflection gD4 aD4 dh 4
+
+reflection hD1 bD1 ae 4
+reflection hD2 bD2 ae 1
+reflection hD3 bD3 ae 4
+reflection hD4 bD4 ae 1
+
+

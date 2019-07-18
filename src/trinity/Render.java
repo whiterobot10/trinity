@@ -47,8 +47,13 @@ public class Render {
 		Render.canvasLayers = canvasLayers;
 
 		canvasSize = new Dimension(0, 0);
+		
+		Dimension foo = Toolkit.getDefaultToolkit().getScreenSize();
+		
+		foo.height*=9;
+		foo.height/=10;
 
-		getBestSize(Toolkit.getDefaultToolkit().getScreenSize());
+		getBestSize(foo);
 		// getBestSize(new Dimension(500, 500));
 		frame = new Frame();
 		canvas = new Canvas();
@@ -186,8 +191,9 @@ public class Render {
 
 	public static BufferedImage loadImage(String path, String target) {
 		BufferedImage rawImage;
+		System.out.println("testing: "+Game.trinitySubgamePath + target + "/gfx/" + path);
 		try {
-			rawImage = ImageIO.read(new File(Game.trinitySubgamePath + "/" + target + "/gfx/" + path));
+			rawImage = ImageIO.read(new File(Game.trinitySubgamePath + target + "/gfx/" + path));
 			BufferedImage finalImage = canvas.getGraphicsConfiguration().createCompatibleImage(rawImage.getWidth(),
 					rawImage.getHeight(), rawImage.getTransparency());
 			finalImage.getGraphics().drawImage(rawImage, 0, 0, null);
@@ -211,7 +217,12 @@ public class Render {
 		} else {
 			gameScreen = canvas.getGraphicsConfiguration().createCompatibleVolatileImage(d.width, d.height);
 			gameSize = d;
-			getBestSize(Toolkit.getDefaultToolkit().getScreenSize());
+			Dimension foo = Toolkit.getDefaultToolkit().getScreenSize();
+			
+			foo.height*=9;
+			foo.height/=10;
+
+			getBestSize(foo);
 			frame.setSize((int) (d.width * sizeFactor), (int) (d.height * sizeFactor));
 
 		}

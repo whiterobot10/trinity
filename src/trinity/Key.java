@@ -1,9 +1,6 @@
 package trinity;
 
-import java.awt.Point;
 import java.awt.event.KeyEvent;
-
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +9,7 @@ public class Key {
 
 	public static List<Key> keys = Collections.synchronizedList(new ArrayList<Key>());
 	public static Twin mousePos = new Twin(0, 0);
+	public static Twin mousePosNoScroll = new Twin(0, 0);
 	public static boolean reset = false;
 	public boolean held;
 	public boolean pressed;

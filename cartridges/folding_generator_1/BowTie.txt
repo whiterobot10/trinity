@@ -1,0 +1,39 @@
+point A 0 0
+point B 1000 0
+point C 1000 2000
+point D 0 2000
+point E 2000 0
+point F 2000 2000
+
+
+line s1 A B 0
+line s2 B C 0
+line s3 A D 0
+line s4 E F 0
+
+pointOnLine vPoint s1 0.5 false
+
+pointOnLine p1 s3 0.5 false
+
+line v1 vPoint C 1
+reflection v2 v1 s2 1
+
+pointOnLine p2 v1 0.5 false
+
+line L1 p1 p2 4
+
+
+
+reflection L2 L1 v1 0
+
+intersectPoint p3 L2 v2
+
+line L2S p2 p3 4
+
+
+
+reflection L3 L2 v2 0
+
+intersectPoint p4 L3 s4
+
+line L3S p3 p4 4

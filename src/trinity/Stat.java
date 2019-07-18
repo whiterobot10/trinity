@@ -1,7 +1,6 @@
 package trinity;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class Stat {
 
@@ -46,7 +45,7 @@ public class Stat {
 			}
 
 		}
-		// value *= valueMult;
+		value *= valueMult;
 		value = base;
 
 	}

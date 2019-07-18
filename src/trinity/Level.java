@@ -1,10 +1,7 @@
 package trinity;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,13 +9,13 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import com.sun.glass.events.KeyEvent;
-
 class SortbyY implements Comparator<Entity>{
 	public int compare(Entity o1, Entity o2) {
 		return (int) (o1.pos.y-o2.pos.y);
 	}
 }
+
+
 
 
 
@@ -67,6 +64,7 @@ public class Level {
 	}
 
 	public static void update() {
+
 		if (Level.currentLevel != null) {
 			synchronized (Level.currentLevel.entities) {
 				for (Entity e : currentLevel.entities) {
@@ -98,6 +96,7 @@ public class Level {
 
 		if (currentLevel != null) {
 			//g.drawImage(Render.tile(images.get("pointer"), 5, 5), 0, 0, null);
+			Graphics2D g_nonshift = (Graphics2D) g.create();
 			AffineTransform old = g.getTransform();
 			g.setTransform((AffineTransform) Render.scroll.clone());
 
@@ -105,9 +104,17 @@ public class Level {
 			synchronized (Level.currentLevel.entities) {
 				synchronized (Level.currentLevel.walls) {
 				
+					
+					
 						for (int i = 0; i < Render.canvasLayers; i++) {
+							
 							for (Entity e : currentLevel.entities) {
-								e.draw(g, i);
+								
+								if(e instanceof Gui) {
+									e.draw(g_nonshift, i);
+									} else {
+									e.draw(g, i);
+									}
 							}
 							for (Wall e : currentLevel.walls) {
 								e.draw(g, i);

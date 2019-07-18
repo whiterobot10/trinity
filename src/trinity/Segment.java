@@ -2,18 +2,8 @@ package trinity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.TexturePaint;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Float;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class Segment {
 
@@ -21,27 +11,36 @@ public class Segment {
 	private static Graphics2D g2 = placeHolderImage.createGraphics();
 
 	private BufferedImage[] image;
-	private Twin offset = Twin.zero;
+	private Twin[] offsets;
 
 	public final float degreesPerRot;
 
 	public Segment(BufferedImage image, int rotations_per_quarter) {
 		this.image = new BufferedImage[rotations_per_quarter];
 		this.image[0] = image;
+		offsets = new Twin[rotations_per_quarter];
+		for (int i = 0; i < offsets.length; i++) {
+			this.offsets[i] = Twin.zero;
+		}
 		degreesPerRot = 90.0f / rotations_per_quarter;
 	}
 
-	public Segment(BufferedImage image, int rotations_per_quarter, Twin offset) {
-		this(image, rotations_per_quarter);
-		this.offset = offset;
-	}
+//	public Segment(BufferedImage image, int rotations_per_quarter, Twin offset) {
+//		this(image, rotations_per_quarter);
+//		for (int i = 0; i < offsets.length; i++) {
+//			this.offsets[i] = offset;
+//		}
+//	}
 
 	public BufferedImage getImage() {
 		return image[0];
 	}
 
-	public void setRotatedImage(int rotation, BufferedImage image) {
+
+
+	public void setRotatedImage(int rotation, BufferedImage image, Twin offset) {
 		this.image[rotation % this.image.length] = image;
+		offsets[rotation] = offset;
 	}
 
 	public BufferedImage getImage(int rotation) {
@@ -120,10 +119,8 @@ public class Segment {
 //		}
 
 		translate.translate(
-				core_pos.ix() + offset.ix() * scale.ix()
-						+ ((placeHolderImage.getWidth() + this.offset.ix()) * scale.ix()) / -2,
-				core_pos.iy() + offset.iy() * scale.iy()
-						+ ((placeHolderImage.getHeight() + this.offset.iy()) * scale.iy()) / -2);
+				(int) (core_pos.ix() + offset.ix() * scale.ix() + ((placeHolderImage.getWidth()) * scale.ix()) / -2),
+				(int) (core_pos.iy() + offset.iy() * scale.iy() + ((placeHolderImage.getHeight()) * scale.iy()) / -2));
 
 //		if(scale.x<0) {
 //		translate.translate(placeHolderImage.getWidth(), 0);
@@ -138,16 +135,15 @@ public class Segment {
 //						+ ((placeHolderImage.getHeight() + this.offset.iy()) * scale.iy()) / 2),
 //				3, 3);
 
-		//System.out.println(Math.toRadians((rotation / image.length) * 90));
-		
-		translate.scale(scale.x, scale.y);
-		
-		System.out.println((rotation / image.length) * 90);
-		translate.rotate(Math.toRadians((rotation / image.length) * 90),
-				((placeHolderImage.getWidth() )) / 2 + this.offset.ix(),
-				((placeHolderImage.getHeight() )) / 2 + this.offset.iy());
+		// System.out.println(Math.toRadians((rotation / image.length) * 90));
 
-		
+		translate.scale(scale.x, scale.y);
+
+
+		 translate.rotate(Math.toRadians((rotation / image.length) * 90),
+				 (placeHolderImage.getWidth()/2), (placeHolderImage.getHeight()/2));
+
+		translate.translate(offsets[rotation % offsets.length].ix(), offsets[rotation % offsets.length].iy());
 
 		// g2 = placeHolderImage.createGraphics();
 		// g2.setColor(new Color(0, 0, 255, 32));
