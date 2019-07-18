@@ -19,7 +19,8 @@ public class CartridgeMenuItem extends MenuItem {
 	@Override
 	public void onClick() {
 		try {
-			Game.getThing("Cartridge", System.getProperty("user.dir")+"/cartridges/"+ cartridge + "/bin/" );
+			Game.getThing(cartridge + ".Cartridge",
+					System.getProperty("user.dir") + "/cartridges/" + cartridge + "/bin/");
 		} catch (MalformedURLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		}

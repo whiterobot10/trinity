@@ -21,6 +21,7 @@ public class Game {
 	public static Random random = new Random();
 
 	public static void main(String[] args) {
+		
 		Render.init(new Dimension(160, 120), 1);
 		Level.clear();
 		Level.levels.add(new Level());
@@ -48,12 +49,11 @@ public class Game {
 
 		File file = new File(path);
 		if (file.exists()) {
-			System.out.println(path + " is valid.");
+			System.out.println(path + " exists.");
 		}
 
 		// Convert File to a URL
 		URL url = file.toURI().toURL(); // file:/c:/myclasses/
-		System.out.println(url);
 		URL[] urls = new URL[] { url };
 
 		// Create a new class loader with the directory
@@ -61,16 +61,9 @@ public class Game {
 		// Load in the class; MyClass.class should be located in
 		// the directory file:/c:/myclasses/com/mycompany
 
-		System.out.println(classname);
-
 		Class<?> cls = cl.loadClass(classname);
 	
-		try {
-			cl.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 
 		cls.getConstructors();
 //		try {
@@ -88,7 +81,15 @@ public class Game {
 //			e.printStackTrace();
 //		}
 		// return
+		
 		cls.newInstance();
+		
+		try {
+			cl.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

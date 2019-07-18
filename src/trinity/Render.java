@@ -191,7 +191,6 @@ public class Render {
 
 	public static BufferedImage loadImage(String path, String target) {
 		BufferedImage rawImage;
-		System.out.println("testing: "+Game.trinitySubgamePath + target + "/gfx/" + path);
 		try {
 			rawImage = ImageIO.read(new File(Game.trinitySubgamePath + target + "/gfx/" + path));
 			BufferedImage finalImage = canvas.getGraphicsConfiguration().createCompatibleImage(rawImage.getWidth(),
