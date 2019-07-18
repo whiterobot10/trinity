@@ -8,45 +8,35 @@ import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+public class Entity extends Object {
 
-
-
-public class Entity {
-
-	public Twin pos;
-	public Twin vel;
-	public boolean solid = true;
+	public Twin vel = new Twin(0,0);
 	public Twin scale = new Twin(1, 1);
 	static float moveCheckAcc = 1.5f;
 	public Shape hitbox = new Rectangle(0, 0, 0, 0);
-	public boolean remove = false;
-
+	
 	public static BufferedImage image = Level.images.get("pointer");
 
-	public Entity() {
-		pos = new Twin(0, 0);
+
+	public Entity(Twin pos, Level level) {
+		super(pos, level);
 	}
 
-	public Entity(Twin pos) {
-		this.pos = pos;
-
-	}
-
-	public Entity(Twin pos, boolean solid) {
-		this(pos);
-		this.solid = solid;
-	}
-
-	public void update() {
+	@Override
+	public void update(Level l) {
+		if(level!=l) {
+			return;
+		}
 
 	}
 
 	public void drawSegment(Graphics2D g, BufferedImage image, Twin pos, int rotations) {
-		
+
 		Render.drawImage(g, image, this.pos.offset(pos), scale, rotations);
 
 	}
 
+	@Override
 	public void draw(Graphics2D g, int layer) {
 		if (layer == 0) {
 			drawSegment(g, image);
@@ -67,7 +57,7 @@ public class Entity {
 
 	public boolean move(Twin amount) {
 		amount = pos.offset(amount);
-		//System.out.println("pN" + pos.distance(amount));
+		// System.out.println("pN" + pos.distance(amount));
 		return moveTwords(amount, pos.distance(amount));
 	}
 
@@ -89,11 +79,11 @@ public class Entity {
 		mult_x /= div;
 		mult_y /= div;
 
-		//int checks = (int) (target.distance(pos) * moveCheckAcc);
+		// int checks = (int) (target.distance(pos) * moveCheckAcc);
 		boolean worked = true;
 		while (distanceToMove >= 0.0001) {
-			//System.out.println(distanceToMove+" "+pos.x+" "+pos.y);
-			float bar = Math.min(distanceToMove, 1.0f/16);
+			// System.out.println(distanceToMove+" "+pos.x+" "+pos.y);
+			float bar = Math.min(distanceToMove, 1.0f / 16);
 			// distanceToMove -= bar;
 			pos.x += bar * mult_x;
 			pos.y += bar * mult_y;
@@ -102,24 +92,22 @@ public class Entity {
 				pos.y -= bar * mult_y;
 
 				pos.x += bar * mult_x;
-				if (clsnCheck()||Math.abs(mult_x)<=0.0001) {
+				if (clsnCheck() || Math.abs(mult_x) <= 0.0001) {
 					pos.x -= bar * mult_x;
 					pos.y += bar * mult_y;
-					if (clsnCheck()||Math.abs(mult_y)<=0.0001) {
+					if (clsnCheck() || Math.abs(mult_y) <= 0.0001) {
 						pos.y -= bar * mult_y;
 						return false;
 					} else {
 						distanceToMove -= Math.abs(bar * mult_y);
-						worked=false;
+						worked = false;
 					}
 
 				} else {
 					distanceToMove -= Math.abs(bar * mult_x);
-					worked=false;
+					worked = false;
 				}
-				
-				
-				
+
 			} else {
 				distanceToMove -= Math.abs(bar);
 			}
@@ -156,14 +144,14 @@ public class Entity {
 
 	}
 
-	protected ArrayList<Entity> clsnObjects() {
-		ArrayList<Entity> bar = new ArrayList<Entity>();
-		for (Entity e : Level.currentLevel.entities) {
-			if (e.solid && e != this && hitbox().getBounds2D().intersects(e.hitbox().getBounds2D())) {
+	protected ArrayList<Object> clsnObjects() {
+		ArrayList<Object> bar = new ArrayList<Object>();
+		for (Object o : level.objects) {
+			if (o.hitbox()!=null && o != this && hitbox().getBounds2D().intersects(o.hitbox().getBounds2D())) {
 				Area foo = new Area(hitbox());
-				foo.intersect(new Area(e.hitbox()));
+				foo.intersect(new Area(o.hitbox()));
 				if (!foo.isEmpty()) {
-					bar.add(e);
+					bar.add(o);
 				}
 			}
 		}
@@ -171,21 +159,10 @@ public class Entity {
 	}
 
 	protected boolean clsnCheck() {
-		for (Entity e : Level.currentLevel.entities) {
-			if (e.solid && e != this && hitbox().getBounds2D().intersects(e.hitbox().getBounds2D())) {
+		for (Object o : level.objects) {
+			if (o.hitbox()!=null && o != this && hitbox().getBounds2D().intersects(o.hitbox().getBounds2D())) {
 				Area foo = new Area(hitbox());
-				foo.intersect(new Area(e.hitbox()));
-				if (!foo.isEmpty()) {
-					return true;
-				}
-			}
-		}
-
-		for (Wall w : Level.currentLevel.walls) {
-
-			if (w.solid && hitbox().getBounds2D().intersects(w.hitbox().getBounds2D())) {
-				Area foo = new Area(hitbox());
-				foo.intersect(new Area(w.hitbox()));
+				foo.intersect(new Area(o.hitbox()));
 				if (!foo.isEmpty()) {
 					return true;
 				}

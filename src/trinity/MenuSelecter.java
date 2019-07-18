@@ -12,19 +12,18 @@ public class MenuSelecter extends Entity {
 	static int lRJump = 4;
 	static ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 
-	public MenuSelecter(Twin pos) {
-		super(pos);
+	public MenuSelecter(Twin pos, Level l) {
+		super(pos, l);
 		menuItems.clear();
-		for (Entity e : Level.currentLevel.entities) {
-			menuItems.add((MenuItem) e);
-			if (menuItems.get(menuItems.size() - 1) == null) {
-
+		for (Object o : l.objects) {
+			if (o instanceof MenuItem) {
+				menuItems.add((MenuItem) o);
 			}
 		}
 	}
 
 	@Override
-	public void update() {
+	public void update(Level l) {
 		if (!Key.keys.isEmpty()) {
 			if (Key.getKey("menu_down").pressed) {
 				selectedItem++;

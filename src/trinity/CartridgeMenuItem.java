@@ -6,13 +6,13 @@ public class CartridgeMenuItem extends MenuItem {
 
 	String cartridge;
 
-	public CartridgeMenuItem(Twin pos, String text) {
-		super(pos, text);
+	public CartridgeMenuItem(Twin pos, Level level, String text) {
+		super(pos, level, text);
 		cartridge = text;
 	}
 
-	public CartridgeMenuItem(Twin twin, String text, String cartrage) {
-		super(twin, text);
+	public CartridgeMenuItem(Twin twin, Level level, String text, String cartrage) {
+		super(twin, level, text);
 		this.cartridge = cartrage;
 	}
 

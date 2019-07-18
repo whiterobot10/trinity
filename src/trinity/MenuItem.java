@@ -5,8 +5,9 @@ import java.awt.Graphics2D;
 public class MenuItem extends Entity{
 
 	String text;
-	public MenuItem(Twin pos, String text) {
-		super(pos);
+	public MenuItem(Twin pos, Level level, String text) {
+		super(pos, level);
+		
 		this.text = text;
 	}
 	

@@ -25,17 +25,18 @@ public class Game {
 		Render.init(new Dimension(160, 120), 1);
 		Level.clear();
 		Level.levels.add(new Level());
-		Level.currentLevel = Level.levels.get(0);
+		Level foo = Level.levels.get(0);
 
-		Level.currentLevel.entities.add(new CartridgeMenuItem(new Twin(10, 20), "Low Battery", "low_battery"));
-		Level.currentLevel.entities.add(new CartridgeMenuItem(new Twin(10, 40), "Evo Sym", "evo_sym"));
-		Level.currentLevel.entities.add(new CartridgeMenuItem(new Twin(10, 60), "Disk Game", "disk_game"));
-		Level.currentLevel.entities.add(new CartridgeMenuItem(new Twin(10, 80), "Drone", "counter_warfare"));
-		Level.currentLevel.entities.add(new CartridgeMenuItem(new Twin(100, 20), "Folding Generator 1", "folding_generator_1"));
-		Level.currentLevel.entities.add(new CartridgeMenuItem(new Twin(100, 40), "Low Battery", "low_battery"));
-		Level.currentLevel.entities.add(new CartridgeMenuItem(new Twin(100, 60), "Low Battery", "low_battery"));
-		Level.currentLevel.entities.add(new CartridgeMenuItem(new Twin(100, 80), "Low Battery", "low_battery"));
-		Level.currentLevel.entities.add(new MenuSelecter(new Twin(0, 0)));
+		new CartridgeMenuItem(new Twin(10, 20), foo, "Low Battery", "low_battery");
+		new CartridgeMenuItem(new Twin(10, 40), foo, "Evo Sym", "evo_sym");
+		new CartridgeMenuItem(new Twin(10, 60), foo, "Disk Game", "disk_game");
+		new CartridgeMenuItem(new Twin(10, 80), foo, "Drone", "counter_warfare");
+		new CartridgeMenuItem(new Twin(100, 20), foo, "Folding Generator 1", "folding_generator_1");
+		new CartridgeMenuItem(new Twin(100, 40), foo, "Low Battery", "low_battery");
+		new CartridgeMenuItem(new Twin(100, 60), foo, "Low Battery", "low_battery");
+		new CartridgeMenuItem(new Twin(100, 80), foo, "Low Battery", "low_battery");
+		foo.updateObjects();
+		new MenuSelecter(new Twin(0, 0), foo);
 
 	}
 
@@ -63,9 +64,10 @@ public class Game {
 
 		Class<?> cls = cl.loadClass(classname);
 	
-		
+
 
 		cls.getConstructors();
+		
 //		try {
 //			Field foo = Level.class.getDeclaredField("path_to_gfx");
 //			foo.setAccessible(true);

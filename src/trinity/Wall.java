@@ -4,31 +4,25 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
 
-public class Wall {
+public class Wall extends Object {
 
-	protected Twin pos;
 	protected Twin size;
 
-	boolean solid = true;
 
 	public static Segment image = null;
 
-	public Wall(Twin pos, Twin size) {
-		this.pos = pos;
+	public Wall(Twin pos, Twin size, Level level) {
+		super(pos, level);
 		this.size = size;
 	}
 
-	public Wall(Twin pos, Twin size, boolean solid) {
-		this(pos, size);
-		this.solid = solid;
-	}
 
 	public void draw(Graphics2D g, int Layer) {
 		if (Layer == 0) {
 			if (image != null) {
-				image.Draw(g, pos, null, null, 0);
+				image.Draw(g, pos, new Twin(0,0), new Twin(0,0), 0);
 			} else {
-				new Segment (Level.images.get("pointer"),1).Draw(g, pos, null, null, 0);
+				new Segment (Level.images.get("pointer"),1).Draw(g, pos, new Twin(0,0), new Twin(1,1), 0);
 			}
 
 		}

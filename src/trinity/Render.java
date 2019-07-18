@@ -39,6 +39,9 @@ public class Render {
 	public static AffineTransform scroll = AffineTransform.getTranslateInstance(0, 0);
 	public static Twin scrollOffset= new Twin(40,40);
 
+	public static VolatileImage getGameScreen() {
+		return gameScreen;
+	}
 	
 
 	public static void init(Dimension gameSize, int canvasLayers) {
@@ -103,7 +106,7 @@ public class Render {
 							fixDisplay(gameSize);
 
 						}
-
+ 
 						Level.update();
 
 						Graphics2D g = gameScreen.createGraphics();
@@ -111,7 +114,7 @@ public class Render {
 						g.setColor(Color.white);
 						g.fillRect(0, 0, gameSize.width, gameSize.height);
 
-						Level.draw(g);
+						Level.draw();
 
 //						if (Level.images.get("pointer") != null) {
 //							drawImage(g, Level.images.get("pointer"), new Twin(Key.mousePos.x, Key.mousePos.y));
