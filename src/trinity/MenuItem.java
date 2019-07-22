@@ -1,5 +1,6 @@
 package trinity;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class MenuItem extends Entity{
@@ -14,6 +15,16 @@ public class MenuItem extends Entity{
 	@Override
 	public void draw(Graphics2D g, int layer) {
 		if (layer == 0) {
+			g.setColor(Color.BLACK);
+			Render.drawString(g, pos, text);
+			
+		}
+		
+	}
+	
+	public void drawSelected(Graphics2D g, int layer) {
+		if (layer == 0) {
+			g.setColor(Color.GREEN);
 			Render.drawString(g, pos, text);
 			
 		}

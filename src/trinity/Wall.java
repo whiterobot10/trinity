@@ -9,20 +9,25 @@ public class Wall extends Object {
 	protected Twin size;
 
 
-	public static Segment image = null;
+	public Segment image = null;
 
 	public Wall(Twin pos, Twin size, Level level) {
 		super(pos, level);
 		this.size = size;
+		image=new Segment (Level.images.get("pointer"),1);
+	}
+	public Wall(Twin pos, Twin size, Segment image,Level level) {
+		super(pos, level);
+		this.size = size;
+		this.image=image;
+		
 	}
 
 
 	public void draw(Graphics2D g, int Layer) {
 		if (Layer == 0) {
 			if (image != null) {
-				image.Draw(g, pos, new Twin(0,0), new Twin(0,0), 0);
-			} else {
-				new Segment (Level.images.get("pointer"),1).Draw(g, pos, new Twin(0,0), new Twin(1,1), 0);
+				image.Draw(g, pos, null, null, 0);
 			}
 
 		}

@@ -1,0 +1,3 @@
+low_battery
+stabby
+folding_generator_1

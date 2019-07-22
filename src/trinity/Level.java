@@ -4,11 +4,14 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 class SortbyY implements Comparator<Object> {
 	public int compare(Object o1, Object o2) {
@@ -17,7 +20,6 @@ class SortbyY implements Comparator<Object> {
 }
 
 public class Level {
-	
 
 	Comparator<Object> objectSorter = new SortbyY();
 
@@ -47,11 +49,10 @@ public class Level {
 	}
 
 	public static void importImage(String path) {
-		String foo = path.toLowerCase();
-		foo = foo.replace('/', '.');
-		foo = foo.replace(".png", "");
 
-		images.put(foo, Render.loadImage(path));
+		System.out.println("loading " + path);
+
+		images.put(path.toLowerCase().replace('/', '.').replace(".png", ""), Render.loadImage(path));
 	}
 
 	private void importImage(String path, String target) {
@@ -64,21 +65,26 @@ public class Level {
 		images.clear();
 		Key.reset = true;
 		// Key.resetKeys();
+		images.put("cartridge", Render.loadImage("cartridge.png", "trinity"));
 		images.put("pointer", Render.loadImage("pointer.png", "trinity"));
 		images.put("tileset.null", Render.loadImage("tileset/null.png", "trinity"));
+		boolean[][] grid = { { false, true, true, true, false }, { true, true, true, true, true },
+				{ true, true, false, true, true }, { true, true, true, true, true },
+				{ false, true, true, true, false } };
+
+		images.put("tileset.null.test", Tile.mergeTiles(images.get("tileset.null"), grid));
 
 	}
-	
+
 	public void updateObjects() {
 		objects.addAll(newObjects);
 		newObjects.clear();
 		for (int i = 0; i < objects.size(); i++) {
-			if (objects.get(i)==null||objects.get(i).remove) {
+			if (objects.get(i) == null || objects.get(i).remove) {
 				objects.remove(i--);
 			}
 		}
 	}
-	
 
 	public static void update() {
 
@@ -86,7 +92,9 @@ public class Level {
 			if (l.shouldProcess) {
 				synchronized (l.objects) {
 					for (Object o : l.objects) {
-						o.update(l);
+						if (o.level == l) {
+							o.update();
+						}
 					}
 					l.updateObjects();
 				}
@@ -120,27 +128,29 @@ public class Level {
 	public static void draw() {
 
 		for (Level l : levels) {
-
-			for (VolatileImage v : l.drawTo) {
-				Graphics2D g = v.createGraphics();
-				Graphics2D g_nonshift = v.createGraphics();
-				//AffineTransform old = g.getTransform();
-				g.setTransform((AffineTransform) Render.scroll.clone());
+			if (!l.drawTo.isEmpty()) {
 				synchronized (l.objects) {
-					for (int i = 0; i < Render.canvasLayers; i++) {
-						for (Object o : l.objects) {
-							if (o instanceof Gui) {
-								o.draw(g_nonshift, i);
-							} else {
-								o.draw(g, i);
+					for (VolatileImage v : l.drawTo) {
+						Graphics2D g = v.createGraphics();
+						Graphics2D g_nonshift = v.createGraphics();
+						// AffineTransform old = g.getTransform();
+						g.setTransform(Render.scroll);
+						
+						for (int i = 0; i < Render.canvasLayers; i++) {
+							for (Object o : l.objects) {
+								if (o instanceof Gui) {
+									o.draw(g_nonshift, i);
+								} else {
+									o.draw(g, i);
+								}
 							}
 						}
-
+						g.dispose();
+						g_nonshift.dispose();
 					}
+					// g.setTransform(old);
 				}
-				//g.setTransform(old);
 			}
-
 		}
 
 //		if (currentLevel != null) {

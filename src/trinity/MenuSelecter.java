@@ -23,36 +23,18 @@ public class MenuSelecter extends Entity {
 	}
 
 	@Override
-	public void update(Level l) {
+	public void update() {
 		if (!Key.keys.isEmpty()) {
-			if (Key.getKey("menu_down").pressed) {
+			if (Key.getKey("menu_right").pressed) {
 				selectedItem++;
 				if (selectedItem >= menuItems.size()) {
 					selectedItem = 0;
 				}
 			}
-			if (Key.getKey("menu_up").pressed) {
+			if (Key.getKey("menu_left").pressed) {
 				selectedItem--;
 				if (selectedItem < 0) {
 					selectedItem = menuItems.size() - 1;
-				}
-			}
-			if (Key.getKey("menu_right").pressed) {
-				selectedItem += lRJump;
-				if (selectedItem >= menuItems.size()) {
-					selectedItem -= menuItems.size() - 1;
-					if (selectedItem == lRJump) {
-						selectedItem = 0;
-					}
-				}
-			}
-			if (Key.getKey("menu_left").pressed) {
-				selectedItem -= lRJump;
-				if (selectedItem < 0) {
-					selectedItem += menuItems.size() - 1;
-					if (selectedItem == lRJump) {
-						selectedItem = menuItems.size() - 1;
-					}
 				}
 			}
 			if (Key.getKey("menu_enter").pressed) {
@@ -64,7 +46,7 @@ public class MenuSelecter extends Entity {
 	@Override
 	public void draw(Graphics2D g, int layer) {
 		if (layer == 0) {
-			drawSegment(g, image, menuItems.get(selectedItem).pos, 0);
+			menuItems.get(selectedItem).drawSelected(g, layer);
 			if (Game.debug) {
 				g.setColor(Color.red);
 				Rectangle foo = hitbox.getBounds();

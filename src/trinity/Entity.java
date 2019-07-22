@@ -23,10 +23,7 @@ public class Entity extends Object {
 	}
 
 	@Override
-	public void update(Level l) {
-		if(level!=l) {
-			return;
-		}
+	public void update() {
 
 	}
 

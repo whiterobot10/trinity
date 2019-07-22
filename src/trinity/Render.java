@@ -37,7 +37,7 @@ public class Render {
 	private static VolatileImage gameScreen;
 	
 	public static AffineTransform scroll = AffineTransform.getTranslateInstance(0, 0);
-	public static Twin scrollOffset= new Twin(40,40);
+	public static Twin scrollOffset= new Twin(40,20);
 
 	public static VolatileImage getGameScreen() {
 		return gameScreen;
@@ -110,23 +110,29 @@ public class Render {
 						Level.update();
 
 						Graphics2D g = gameScreen.createGraphics();
+						
 
 						g.setColor(Color.white);
 						g.fillRect(0, 0, gameSize.width, gameSize.height);
-
+						
 						Level.draw();
 
 //						if (Level.images.get("pointer") != null) {
 //							drawImage(g, Level.images.get("pointer"), new Twin(Key.mousePos.x, Key.mousePos.y));
 //						}
 
+						
+						
 						g.dispose();
+						
+						
 
 						Graphics g2 = canvas.getGraphics();
 
 						g2.drawImage(gameScreen, 0, 0, (int) (gameSize.width * sizeFactor),
 								(int) (gameSize.height * sizeFactor), null);
 						g2.dispose();
+						
 					}
 				}
 			}
@@ -320,7 +326,6 @@ public class Render {
 	}
 
 	public static void drawString(Graphics g, Twin pos, String text) {
-		g.setColor(Color.BLACK);
 		g.drawString(text, (int) pos.x + 10, (int) pos.y + 4);
 	}
 

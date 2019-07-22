@@ -23,7 +23,7 @@ public class Object {
 		
 	}
 	
-	public void update(Level l) {
+	public void update() {
 
 	}
 	
