@@ -20,6 +20,11 @@ public class Cartridge extends Level {
 
 		importImage("ally.png");
 		importImage("enemy.png");
+		
+		importImage("arms.png");
+		importImage("blade_1.png");
+		importImage("blade_2.png");
+		importImage("slash.png");
 		//importImage("daggers.png");
 		
 		
@@ -35,11 +40,11 @@ public class Cartridge extends Level {
 		new Ally(new Twin(10,50), foo);
 		
 		
-		new Enemy(new Twin(50,10), foo);
+		new Enemy(new Twin(60,10), foo);
 		
-		new Enemy(new Twin(50,30), foo);
+		new Enemy(new Twin(60,30), foo);
 		
-		new Enemy(new Twin(50,50), foo);
+		new Enemy(new Twin(60,50), foo);
 		
 		
 	}

@@ -112,7 +112,7 @@ public class Render {
 						Graphics2D g = gameScreen.createGraphics();
 						
 
-						g.setColor(Color.white);
+						g.setColor(Color.BLUE);
 						g.fillRect(0, 0, gameSize.width, gameSize.height);
 						
 						Level.draw();
