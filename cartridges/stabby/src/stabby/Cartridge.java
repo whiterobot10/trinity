@@ -11,6 +11,8 @@ import trinity.Twin;
 public class Cartridge extends Level {
 
 	{
+		
+		Render.canvasLayers = 2;
 
 		clear();
 		Key.resetKeys();

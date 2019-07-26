@@ -44,7 +44,7 @@ public class Battler extends Entity {
 					target_pos = new Twin(45, target.pos.y);
 				} else {
 					target = SelectRandomBattler(Ally.class);
-					target_pos = new Twin(15, target.pos.y);
+					target_pos = new Twin(25, target.pos.y);
 				}
 
 			}

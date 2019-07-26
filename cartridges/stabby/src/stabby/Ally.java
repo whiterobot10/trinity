@@ -16,28 +16,39 @@ public class Ally extends Battler {
 		blades.setRotatedImage(1, Level.images.get("blade_2"), new Twin(0, 0));
 	}
 
+	static Segment body = new Segment(Level.images.get("ally"), 2);
+
 	public Ally(Twin pos, Level level) {
 		super(pos, level);
 	}
 
 	@Override
-	public void draw(Graphics2D g, int layer) {
-		if (active != this) {
-			blades.Draw(g, pos, new Twin(-6, 2), null, 0);
-			arms.Draw(g, pos, null, null, 0);
 
-		} else if (animFrame < 15) {
-			blades.Draw(g, pos, new Twin(-6, -2), null, 0);
-			arms.Draw(g, pos, null, new Twin(1, -1), 0);
-		} else if (animFrame < 30) {
-			if (animFrame < 20) {
-				slash.Draw(g, pos, new Twin(10, -10), null, 0);
+	public void draw(Graphics2D g, int layer) {
+		
+		
+		if (layer == 0 && active != this) {
+			body.Draw(g, pos, new Twin(0, 1), null, 0);
+				blades.Draw(g, pos, new Twin(-6, 2), null, 0);
+				arms.Draw(g, pos, null, null, 0);
+
+		}
+		if (layer == 1 && active == this) {
+			body.Draw(g, pos, new Twin(0, 1), null, 0);
+			if (animFrame < 15) {
+				blades.Draw(g, pos, new Twin(-6, -6), null, 0);
+				arms.Draw(g, pos, new Twin(0, 4), new Twin(1, -1), 0);
+			} else if (animFrame < 30) {
+				if (animFrame < 20) {
+					slash.Draw(g, pos, new Twin(10, -10), null, 0);
+				}
+				blades.Draw(g, pos, new Twin(7, 2), null, 1);
+				arms.Draw(g, pos, new Twin(-1, 0), new Twin(-1, 1), 0);
+			} else {
+				blades.Draw(g, pos, new Twin(-6, 2), null, 0);
+				arms.Draw(g, pos, null, null, 0);
 			}
-			blades.Draw(g, pos, new Twin(6, 2), null, 1);
-			arms.Draw(g, pos, null, new Twin(-1, 1), 0);
-		} else {
-			blades.Draw(g, pos, new Twin(-6, 2), null, 0);
-			arms.Draw(g, pos, null, null, 0);
+
 		}
 
 	}
